@@ -1329,7 +1329,7 @@ if st.sidebar.button("ABOUT", width="stretch"):
 
 app_mode = st.session_state.app_mode
 st.sidebar.markdown("---")
-st.sidebar.info("💡 **Data Scope:** Domestic Tourism Mobility across Malaysia (DOSM 2015–2025).")
+st.sidebar.info("💡 **Data Scope:** The data presented on this platform are derived from official Malaysian government sources and authoritative public-sector datasets.")
 
 # -----------------------------------------------------------------------------
 # Part 1: Home Page

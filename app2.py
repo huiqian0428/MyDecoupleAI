@@ -34,7 +34,6 @@ st.markdown("""
         color: white;
     }
     .sdg-8 { background-color: #A21942; }
-    .sdg-11 { background-color: #FD9D24; }
     .sdg-12 { background-color: #BF8B2E; }
 
     /* Hero Banner 容器 */
@@ -1351,7 +1350,6 @@ if app_mode == "HOME":
         <div class="hero-content">
             <div>
                 <span class="sdg-badge sdg-8">SDG 8: Decent Work & Economic Growth</span>
-                <span class="sdg-badge sdg-11">SDG 11: Sustainable Cities</span>
                 <span class="sdg-badge sdg-12">SDG 12: Responsible Consumption</span>
             </div>
             <div class="hero-title">Leveraging AI Recommender Systems and Spatial Analytics </div>

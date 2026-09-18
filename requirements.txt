@@ -1,9 +1,9 @@
 streamlit
-pandas
-numpy
+pandas==2.3.2
+numpy==2.3.2
 plotly
 folium
 streamlit-folium
-joblib
+joblib==1.5.2
 openpyxl
-scikit-learn
+scikit-learn==1.7.1

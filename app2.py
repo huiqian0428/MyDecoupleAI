@@ -392,30 +392,37 @@ st.markdown("""
         margin-top: 10px;
     }
 
+    .vision-box,
+    .mission-box {
+        height: 220px;
+        padding: 28px;
+        border-radius: 12px;
+        box-sizing: border-box;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
     .vision-box {
         background-color: #1f4e79;
         color: white;
-        border-radius: 12px;
-        padding: 28px;
-        height: 100%;
     }
-
+    
     .mission-box {
         background-color: #f8fafc;
         border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 28px;
-        height: 100%;
-    }
-
-    .vision-box h3,
-    .mission-box h3 {
-        margin-top: 0;
-        font-size: 1.25rem;
-    }
-
+     }
+     
+     .vision-box h3,
+     .mission-box h3 {
+         margin-top: 0;
+         margin-bottom: 15px;
+         font-size: 1.25rem;
+         }
+         
     .vision-box p,
     .mission-box p {
+        margin-bottom: 0;
         line-height: 1.8;
         font-size: 0.95rem;
     }
@@ -1355,7 +1362,7 @@ if app_mode == "HOME":
             <div class="hero-title">Leveraging AI Recommender Systems and Spatial Analytics </div>
             <div class="hero-subtitle">To Reduce Tourism Concentration in Malaysia</div>
             <div class="hero-quote">
-                <b>Core Problem & Question:</b> How can Malaysia achieve tourism growth without concentrating too much tourism in the same destinations?
+                How can Malaysia achieve tourism growth without concentrating too much tourism in the same destinations?
             </div>
         </div>
     </div>
@@ -1375,26 +1382,19 @@ if app_mode == "HOME":
         unsafe_allow_html=True
         )
         st.markdown(
-             '<div class="section-heading">Malaysia: A Destination of Diversity and Opportunity</div>',
+             '<div class="section-heading">Welcome to Malaysia</div>',
         unsafe_allow_html=True
         )
 
         st.markdown(
             """
             <p class="section-text">
-            Malaysia is a multicultural country rich in diverse traditions, heritage, and natural beauty. From vibrant cities and historical sites to tropical rainforests, islands, and beaches, Malaysia offers visitors a wide range of unique experiences.
+            Malaysia is a multicultural nation that blends the traditions and cultures of Malay, Chinese, Indian, and various indigenous communities. Its rich cultural heritage, tropical rainforests, islands and beaches, and vibrant cities offer visitors a diverse range of travel experiences.
             </p>
 
             <p class="section-text">
-            Malaysia is also a food paradise, where Malay, Chinese, Indian, and indigenous cultures come together to create a diverse and distinctive culinary experience. Visitors can also discover the unique traditions of communities such as the Kadazan-Dusun and Iban in Sabah and Sarawak.
+            Malaysia is also a culinary paradise, bringing together the unique flavors and cuisines of its various ethnic groups. Beyond exploring its multicultural landscape and natural scenery, visitors can venture into Sabah and Sarawak to experience the cultures of indigenous peoples such as the Kadazan-Dusun and the Iban.
             </p>
-
-
-            <p class="section-text">
-            Tourism contributes significantly to Malaysias economy by generating income, creating jobs, and supporting local businesses. However, rapid tourism growth can also lead to overcrowding, environmental pressure, infrastructure strain, and uneven distribution of tourism benefits
-            </p>
-
-
             """,
             unsafe_allow_html=True
         )

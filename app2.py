@@ -432,15 +432,14 @@ st.markdown("""
    ================================================= */
    div.stButton > button {
     width: 100%;
-    height: 180px;
+    height: 150px;
 
     background-color: #f8fafc;
     color: #1f4e79;
 
     border: 1px solid #e5e7eb;
     border-radius: 12px;
-
-    font-size: 2.0rem;
+    
     font-weight: 700;
 
     text-align: center;
@@ -460,8 +459,10 @@ st.markdown("""
         
     /* Keep text centered */
     div.stButton > button p {
-    margin: 0;
-    text-align: center;
+        font-size: 1.3rem !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        color: inherit !important;
     }
 
     .step-number {
@@ -498,22 +499,28 @@ st.markdown("""
     }
 
     .home-cta {
-        background: linear-gradient(135deg, #1f4e79, #2563a6);
-        color: white;
-        border-radius: 14px;
+        background: #eaf2f8；
+        border：1px solid  #d4e3ef;
+        border-radius: 16px;
         padding: 35px;
         text-align: center;
         margin-top: 20px;
     }
 
     .home-cta h2 {
-        color: white;
-        margin-bottom: 10px;
+        color: #1f4e79;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 12px;
     }
 
     .home-cta p {
-        color: #e5edf7;
-        line-height: 1.6;
+        color: #4b5563;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        max-width: 850px;
+        margin: 0 auto;
     }
 
     # OVERVIEW PAGE STYLE
@@ -1606,7 +1613,7 @@ if app_mode == "HOME":
         """
         <div class="home-cta">
             <h2>Building a Smarter Tourism Future for Malaysia</h2>
-            <p>MyDecouple AI connects data, artificial intelligence, and sustainable tourism intelligence to support better decisionsfor travelers, communities, and policymakers.</p>
+            <p>MyDecouple AI connects data, artificial intelligence, and sustainable tourism intelligence to support better decisions for travelers, communities, and policymakers.</p>
         </div>
         """,
         unsafe_allow_html=True

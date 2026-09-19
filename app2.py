@@ -499,7 +499,7 @@ st.markdown("""
     }
 
     .home-cta {
-        background: #eaf2f8；
+        background: #b9d5eb；
         border：1px solid  #d4e3ef;
         border-radius: 16px;
         padding: 35px;

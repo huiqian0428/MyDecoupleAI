@@ -459,7 +459,7 @@ st.markdown("""
         
     /* Keep text centered */
     div.stButton > button p {
-        font-size: 1.3rem !important;
+        font-size: 1.0rem !important;
         font-weight: 700 !important;
         margin: 0 !important;
         color: inherit !important;

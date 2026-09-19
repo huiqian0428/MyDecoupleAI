@@ -1652,6 +1652,36 @@ elif app_mode == "OVERVIEW":
     </div>
     """, unsafe_allow_html=True)
 
+    # =========================================================
+    # POWER BI DASHBOARD
+    # =========================================================
+    st.markdown(
+        '<div class="section-heading">Interactive Tourism Dashboard</div>',
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        """
+        <p class="section-text">
+        Explore additional tourism insights through an interactive Power BI dashboard.
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    st.markdown(
+        """
+        <div class="powerbi-container">
+            <iframe
+                title="4SIGHT_Datathon2026_Dashboard"
+                src="https://app.powerbi.com/view?r=eyJrIjoiZjdiMjljYjItY2I5Yi00ZjFlLTgyOWYtNjZjMjQyNGM3NTQzIiwidCI6IjFmNTUxYWViLTdlYTEtNDcyYy05YWMwLTA5ZGU5YmYzMzA1MSIsImMiOjEwfQ%3D%3D&pageName=5e820162677e1acd80bc"
+                frameborder="0"
+                allowFullScreen="true">
+            </iframe>
+        </div>
+        """,
+        unsafe_allow_html=True
+   )
+
 
 
     # -----------------------------------------------------

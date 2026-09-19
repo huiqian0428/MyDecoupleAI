@@ -427,30 +427,40 @@ st.markdown("""
         font-size: 0.95rem;
     }
 
-    .platform-card {
-        background: #ffffff;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 25px;
-        text-align: center;
-        height: 100%;
-        transition: 0.2s ease;
-    }
+    /* =================================================
+   EXPLORE PLATFORM BUTTONS
+   ================================================= */
+   div.stButton > button {
+    width: 100%;
+    height: 180px;
 
-    .platform-card h3 {
-        color: #1f4e79;
-        margin-bottom: 10px;
-    }
+    background-color: #f8fafc;
+    color: #1f4e79;
 
-    .platform-card p {
-        color: #6b7280;
-        line-height: 1.6;
-        font-size: 0.9rem;
-    }
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
 
-    .platform-icon {
-        font-size: 2.2rem;
-        margin-bottom: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+
+    white-space: pre-line;
+    text-align: center;
+
+    transition: all 0.2s ease;
+}
+    /* Hover Effect */
+    div.stButton > button:hover {
+        background-color: #1f4e79;
+        color: white;
+        border-color: #1f4e79;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+        
+    /* Keep text centered */
+    div.stButton > button p {
+    margin: 0;
+    text-align: center;
     }
 
     .step-number {
@@ -1513,62 +1523,84 @@ if app_mode == "HOME":
     )
 
     p1, p2, p3 = st.columns(3)
-    with p1:
-        st.markdown(
-            """
-            <div class="platform-card" style="text-align: center;">
-            <div class="platform-icon">📊</div>
-            </div>
-            """,unsafe_allow_html=True
-        )
 
-        if st.button("Tourism Overview", key="btn_title_overview", width="stretch"):
+    # =========================================================
+    # TOURISM OVERVIEW
+    # =========================================================
+    with p1:
+        if st.button(
+            "📊\n\nTourism Overview",
+            key="btn_title_overview",
+            width="stretch"
+        ):
             st.session_state.app_mode = "OVERVIEW"
             st.rerun()
+
         st.markdown(
             """
-            <p style="font-size: 0.9rem; color: #666; text-align: center;">
-            Explore tourism trends, destination patterns, and spatial tourism diagnostics across Malaysia.</p>
-        """,
-        unsafe_allow_html=True
+            <p style="
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            margin-top: 12px;
+            ">
+            Explore tourism trends, destination patterns, and spatial tourism diagnostics across Malaysia.
+           </p>
+            """,
+           unsafe_allow_html=True
+        )
+    # =========================================================
+    # SMART TRIP PLANNER
+    # =========================================================
+    with p2:
+        if st.button(
+            "🗺️\n\n🔥 Smart Trip Planner",
+            key="btn_title_planner",
+            width="stretch"
+        ):
+            st.session_state.app_mode = "🔥SMART TRIP PLANNER"
+            st.rerun()
+
+        st.markdown(
+            """
+            <p style="
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            margin-top: 12px;
+            ">
+            Discover personalized travel recommendations and alternative destinations based on your preferences.
+            </p>
+            """,
+            unsafe_allow_html=True
         )
 
-        with p2:
-            st.markdown(
-                """
-                <div class="platform-card" style="text-align: center;">
-                <div class="platform-icon">🗺️</div>
-                </div>
-                """,unsafe_allow_html=True
-            )
-            if st.button("🔥Smart Trip Planner", key="btn_title_planner", width="stretch"):
-                st.session_state.app_mode = "🔥SMART TRIP PLANNER"
-                st.rerun()
-            st.markdown(
-                    """
-                    <p style="font-size: 0.9rem; color: #666; text-align: center;">
-                    Discover personalized travel recommendations and alternative destinations based on your preferences.</p>
-                    """,
-                    unsafe_allow_html=True
-                )
-        with p3:
-            st.markdown(
-                """
-                <div class="platform-card" style="text-align: center;">
-                <div class="platform-icon">🏛️</div>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-            if st.button("Policy Simulator", key="btn_title_simulator", width="stretch"):
-                st.session_state.app_mode = "POLICY SIMULATOR"
-                st.rerun()
-            st.markdown(
-                """
-                <p style="font-size: 0.9rem; color: #666; text-align: center;">
-                Explore tourism policy scenarios and their potential impact on destination distribution and sustainability.</p>
-                """,unsafe_allow_html=True
-            )
+    # =========================================================
+    # POLICY SIMULATOR
+    # =========================================================
+    with p3:
+
+        if st.button(
+            "🏛️\n\nPolicy Simulator",
+            key="btn_title_simulator",
+            width="stretch"
+        ):
+            st.session_state.app_mode = "POLICY SIMULATOR"
+            st.rerun()
+
+        st.markdown(
+            """
+            <p style="
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            margin-top: 12px;
+            ">
+            Explore tourism policy scenarios and their potential impact on destination distribution and sustainability.
+            </p>
+            """,
+            unsafe_allow_html=True
+         )
     st.markdown(
         """
         <div class="home-cta">

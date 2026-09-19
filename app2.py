@@ -440,7 +440,7 @@ st.markdown("""
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     
-    font-weight: 700;
+    font-weight: 600;
 
     text-align: center;
 
@@ -460,7 +460,7 @@ st.markdown("""
     /* Keep text centered */
     div.stButton > button p {
         font-size: 1.0rem !important;
-        font-weight: 700 !important;
+        font-weight: 600 !important;
         margin: 0 !important;
         color: inherit !important;
     }
@@ -7043,7 +7043,7 @@ elif app_mode == " WHAT-IF SCENARIO":
     # 2. SELECT STATE
     # =========================================================
 
-    st.markdown("## 1️⃣ Select State")
+    st.markdown("## 1️. Select State")
 
     available_states = sorted(
         df_policy_model["state_std"]
@@ -7089,7 +7089,7 @@ elif app_mode == " WHAT-IF SCENARIO":
     # 3. CURRENT CONDITION
     # =========================================================
 
-    st.markdown("## 2️⃣ Current Condition")
+    st.markdown("## 2️. Current Condition")
 
     st.caption(
         f"Latest available model year: {int(latest_year)}"
@@ -7190,7 +7190,7 @@ elif app_mode == " WHAT-IF SCENARIO":
     # 4. POLICY SCENARIO
     # =========================================================
 
-    st.markdown("## 3️⃣ What-If Scenario")
+    st.markdown("## 3️. What-If Scenario")
 
     st.caption(
         "Adjust each indicator to simulate a hypothetical "
@@ -7396,7 +7396,7 @@ elif app_mode == " WHAT-IF SCENARIO":
     # 7. RUN SIMULATION
     # =========================================================
 
-    st.markdown("## 4️⃣ Simulation Results")
+    st.markdown("## 4️. Simulation Results")
 
     run_simulation = st.button(
         "🚀 Run Policy Simulation",

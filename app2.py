@@ -7219,8 +7219,8 @@ elif app_mode == " WHAT-IF SCENARIO":
 
         x1_change = st.slider(
             "X1 • Interstate Transit Hub Density",
-            min_value=-50,
-            max_value=50,
+            min_value=-100,
+            max_value=100,
             value=0,
             step=5,
             format="%d%%"
@@ -7235,8 +7235,8 @@ elif app_mode == " WHAT-IF SCENARIO":
 
         x2_change = st.slider(
             "X2 • Top 5 Digital Polarization Index",
-            min_value=-50,
-            max_value=50,
+            min_value=-100,
+            max_value=100,
             value=0,
             step=5,
             format="%d%%"
@@ -7254,8 +7254,8 @@ elif app_mode == " WHAT-IF SCENARIO":
 
         x3_change = st.slider(
             "X3 • Yearly Average Score",
-            min_value=-50,
-            max_value=50,
+            min_value=-100,
+            max_value=100,
             value=0,
             step=5,
             format="%d%%"
@@ -7270,8 +7270,8 @@ elif app_mode == " WHAT-IF SCENARIO":
 
         x4_change = st.slider(
             "X4 • Accommodation Capacity Density",
-            min_value=-50,
-            max_value=50,
+            min_value=-100,
+            max_value=100,
             value=0,
             step=5,
             format="%d%%"

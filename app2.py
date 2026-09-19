@@ -636,24 +636,25 @@ st.markdown("""
         margin-bottom: 0px;
     }
 
-    /* Power BI Card */
-    .powerbi-card {
-        background: linear-gradient(
-            135deg,
-            #FFF7E6,
-            #FFFDF7
-        );
-        border: 1px solid #F5D48A;
-        border-radius: 16px;
-        padding: 24px;
-        margin-top: 25px;
-    }
+    /* =========================================================
+   POWER BI DASHBOARD
+   ========================================================= */
 
-    .powerbi-title {
-        color: #8A5A00;
-        font-size: 23px;
-        font-weight: 750;
-    }
+.powerbi-container {
+    width: 100%;
+    margin: 20px 0 30px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #f8fafc;
+    border: 1px solid #e5e7eb;
+}
+
+.powerbi-container iframe {
+    width: 100%;
+    height: 700px;
+    border: none;
+    display: block;
+}
 
     /* Dataset Preview */
     .dataset-card {
@@ -1610,6 +1611,7 @@ if app_mode == "HOME":
             """,
             unsafe_allow_html=True
          )
+    st.markdown("---")
     st.markdown(
         """
         <div class="home-cta">
@@ -1619,6 +1621,7 @@ if app_mode == "HOME":
         """,
         unsafe_allow_html=True
     )
+    st.markdown("---")
 
 # -----------------------------------------------------------------------------
 # Part 2: Overview Page
@@ -1649,6 +1652,38 @@ elif app_mode == "OVERVIEW":
         </p>
     </div>
     """, unsafe_allow_html=True)
+
+    # =========================================================
+# POWER BI DASHBOARD
+# =========================================================
+
+st.markdown(
+    '<div class="section-heading">Interactive Tourism Dashboard</div>',
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <p class="section-text">
+    Explore additional tourism insights through an interactive Power BI dashboard.
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <div class="powerbi-container">
+        <iframe
+            title="4SIGHT_Datathon2026_Dashboard"
+            src="https://app.powerbi.com/view?r=eyJrIjoiZjdiMjljYjItY2I5Yi00ZjFlLTgyOWYtNjZjMjQyNGM3NTQzIiwidCI6IjFmNTUxYWViLTdlYTEtNDcyYy05YWMwLTA5ZGU5YmYzMzA1MSIsImMiOjEwfQ%3D%3D&pageName=5e820162677e1acd80bc"
+            frameborder="0"
+            allowFullScreen="true">
+        </iframe>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 
     # -----------------------------------------------------
@@ -2027,7 +2062,7 @@ elif app_mode == "OVERVIEW":
     # -----------------------------------------------------
 
     st.markdown("""
-    <div class="section-title">Tourism Data Explorer</div>
+    <div class="section-title">A. Tourism Data Explorer</div>
     <div class="section-description">
         Select a year and location to explore tourism activity.
     </div>
@@ -2299,7 +2334,7 @@ elif app_mode == "OVERVIEW":
     st.markdown("""
     <div class="section-title">Domestic Tourism Demand</div>
     <div class="section-description">
-        Domestic visitors and tourism trips by visitor category.
+        Domestic visitors and domestic tourism trips by visitor category.
     </div>
     """, unsafe_allow_html=True)
 
@@ -2651,7 +2686,7 @@ elif app_mode == "OVERVIEW":
     # =====================================================
 
     st.markdown("""
-    <div class="section-title">Tourism Purpose</div>
+    <div class="section-title">B. Tourism Purpose</div>
     <div class="section-description">
         Explore the main purposes of domestic travel among
         domestic visitors and tourists.
@@ -3218,7 +3253,7 @@ elif app_mode == "OVERVIEW":
     # =====================================================
 
     st.markdown("""
-    <div class="section-title">Transportation</div>
+    <div class="section-title">C. Transportation</div>
     <div class="section-description">
         Explore how domestic visitors and excursionists travel,
         including the main modes of transport and land
@@ -3979,7 +4014,7 @@ elif app_mode == "OVERVIEW":
 
     st.markdown("""
     <div class="section-title">
-        📍 Tourism Destination & Hotel Distribution
+        D. Tourism Destination & Hotel Distribution
     </div>
 
     <div class="section-description">
@@ -6989,7 +7024,7 @@ elif app_mode == " WHAT-IF SCENARIO":
     # =========================================================
 
     st.markdown(
-        "<h1 style='text-align:center;'>🏛️ Policy What-If Simulator</h1>",
+        "<h1 style='text-align:center;'>🏛️ What-If Simulator</h1>",
         unsafe_allow_html=True
     )
 
@@ -7010,7 +7045,7 @@ elif app_mode == " WHAT-IF SCENARIO":
     # 1. ACCESS CONTROL
     # =========================================================
 
-    st.markdown("### 🔐 Policy Simulator Access")
+    st.markdown("### 🔐 What-If Scenario Access")
 
     password = st.text_input(
         "Enter policy access password",
@@ -7181,7 +7216,7 @@ elif app_mode == " WHAT-IF SCENARIO":
     # 4. POLICY SCENARIO
     # =========================================================
 
-    st.markdown("## 3️⃣ Policy Scenario")
+    st.markdown("## 3️⃣ What-If Scenario")
 
     st.caption(
         "Adjust each indicator to simulate a hypothetical "

@@ -440,13 +440,14 @@ st.markdown("""
     border: 1px solid #e5e7eb;
     border-radius: 12px;
 
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.3rem;
+    font-weight: 700;
 
-    white-space: pre-line;
     text-align: center;
 
     transition: all 0.2s ease;
+
+    box-sizing:border-box;
 }
     /* Hover Effect */
     div.stButton > button:hover {
@@ -1337,8 +1338,8 @@ if st.sidebar.button("OVERVIEW", width="stretch"):
 if st.sidebar.button("🔥SMART TRIP PLANNER", width="stretch"):
     st.session_state.app_mode = "🔥SMART TRIP PLANNER"
 
-if st.sidebar.button("POLICY SIMULATOR", width="stretch"):
-    st.session_state.app_mode = "POLICY SIMULATOR"
+if st.sidebar.button(" WHAT-IF SCENARIO", width="stretch"):
+    st.session_state.app_mode = " WHAT-IF SCENARIO"
 
 if st.sidebar.button("ABOUT", width="stretch"):
     st.session_state.app_mode = "ABOUT"
@@ -1529,7 +1530,7 @@ if app_mode == "HOME":
     # =========================================================
     with p1:
         if st.button(
-            "📊\n\nTourism Overview",
+            "Tourism Overview",
             key="btn_title_overview",
             width="stretch"
         ):
@@ -1554,7 +1555,7 @@ if app_mode == "HOME":
     # =========================================================
     with p2:
         if st.button(
-            "🗺️\n\n🔥 Smart Trip Planner",
+            "Smart Trip Planner",
             key="btn_title_planner",
             width="stretch"
         ):
@@ -1576,16 +1577,16 @@ if app_mode == "HOME":
         )
 
     # =========================================================
-    # POLICY SIMULATOR
+    # WHAT-IF SCENARIO
     # =========================================================
     with p3:
 
         if st.button(
-            "🏛️\n\nPolicy Simulator",
+            "What-If Scenario",
             key="btn_title_simulator",
             width="stretch"
         ):
-            st.session_state.app_mode = "POLICY SIMULATOR"
+            st.session_state.app_mode = " WHAT-IF SCENARIO"
             st.rerun()
 
         st.markdown(
@@ -6973,7 +6974,7 @@ elif app_mode == "🔥SMART TRIP PLANNER":
 # -----------------------------------------------------------------------------
 # Part 4: B2G Government Policy What-If Simulator
 # -----------------------------------------------------------------------------
-elif app_mode == "POLICY SIMULATOR":
+elif app_mode == " WHAT-IF SCENARIO":
 
     # =========================================================
     # PAGE HEADER

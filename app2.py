@@ -440,7 +440,7 @@ st.markdown("""
     border: 1px solid #e5e7eb;
     border-radius: 12px;
 
-    font-size: 1.3rem;
+    font-size: 2.0rem;
     font-weight: 700;
 
     text-align: center;

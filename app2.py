@@ -500,7 +500,8 @@ st.markdown("""
 
     .home-cta {
         background: #b9d5eb；
-        border：1px solid  #d4e3ef;
+        border：1px solid   #84afd1
+;
         border-radius: 16px;
         padding: 35px;
         text-align: center;

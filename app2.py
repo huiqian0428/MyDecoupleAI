@@ -7006,31 +7006,7 @@ elif app_mode == " WHAT-IF SCENARIO":
         unsafe_allow_html=True
     )
 
-    st.markdown("---")
-
-
-    # =========================================================
-    # 1. ACCESS CONTROL
-    # =========================================================
-
-    st.markdown("### 🔐 What-If Scenario Access")
-
-    password = st.text_input(
-        "Enter policy access password",
-        type="password"
-    )
-
-    if password != "gov2026":
-
-        st.info(
-            "Please enter the policy access password to continue."
-        )
-
-        st.stop()
-
-    st.success("Access granted.")
-
-    st.markdown("---")
+    st.markdown("---"）
 
 
     # =========================================================

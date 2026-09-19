@@ -428,43 +428,48 @@ st.markdown("""
     }
 
     /* =================================================
-   EXPLORE PLATFORM BUTTONS
-   ================================================= */
-   div.stButton > button {
-    width: 100%;
-    height: 150px;
+    EXPLORE PLATFORM BUTTONS
+    ================================================= */
+    /* =================================================
+    EXPLORE PLATFORM BUTTONS
+    ================================================= */
 
-    background-color: #f8fafc;
-    color: #1f4e79;
+    [data-testid="stMain"] div.stButton > button {
+        width: 100%;
+        height: 150px;
 
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    
-    font-weight: 600;
+        background-color: #f8fafc;
+        color: #1f4e79;
 
-    text-align: center;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
 
-    transition: all 0.2s ease;
+        font-weight: 600;
+        text-align: center;
 
-    box-sizing:border-box;
-}
+        transition: all 0.2s ease;
+
+        box-sizing: border-box;
+    }
+
     /* Hover Effect */
-    div.stButton > button:hover {
+    [data-testid="stMain"] div.stButton > button:hover {
         background-color: #1f4e79;
         color: white;
         border-color: #1f4e79;
+
         transform: translateY(-3px);
+
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-        }
-        
-    /* Keep text centered */
-    div.stButton > button p {
+    }
+
+    /* Button Text */
+    [data-testid="stMain"] div.stButton > button p {
         font-size: 1.0rem !important;
         font-weight: 600 !important;
         margin: 0 !important;
         color: inherit !important;
     }
-
     .step-number {
         background: #1f77b4;
         color: white;
@@ -1531,6 +1536,10 @@ if app_mode == "HOME":
         unsafe_allow_html=True
     )
 
+    # =========================================================
+    # EXPLORE PLATFORM
+    # =========================================================
+
     p1, p2, p3 = st.columns(3)
 
     # =========================================================
@@ -1548,16 +1557,17 @@ if app_mode == "HOME":
         st.markdown(
             """
             <p style="
-            font-size: 0.9rem;
-            color: #666;
-            text-align: center;
-            margin-top: 12px;
+                font-size: 0.9rem;
+                color: #666;
+                text-align: center;
+                margin-top: 12px;
             ">
             Explore tourism trends, destination patterns, and spatial tourism diagnostics across Malaysia.
-           </p>
+            </p>
             """,
-           unsafe_allow_html=True
+            unsafe_allow_html=True
         )
+
     # =========================================================
     # SMART TRIP PLANNER
     # =========================================================
@@ -1573,10 +1583,10 @@ if app_mode == "HOME":
         st.markdown(
             """
             <p style="
-            font-size: 0.9rem;
-            color: #666;
-            text-align: center;
-            margin-top: 12px;
+                font-size: 0.9rem;
+                color: #666;
+                text-align: center;
+                margin-top: 12px;
             ">
             Discover personalized travel recommendations and alternative destinations based on your preferences.
             </p>
@@ -1588,7 +1598,6 @@ if app_mode == "HOME":
     # WHAT-IF SCENARIO
     # =========================================================
     with p3:
-
         if st.button(
             "What-If Scenario",
             key="btn_title_simulator",
@@ -1600,16 +1609,18 @@ if app_mode == "HOME":
         st.markdown(
             """
             <p style="
-            font-size: 0.9rem;
-            color: #666;
-            text-align: center;
-            margin-top: 12px;
+                font-size: 0.9rem;
+                color: #666;
+                text-align: center;
+                margin-top: 12px;
             ">
             Explore tourism policy scenarios and their potential impact on destination distribution and sustainability.
             </p>
             """,
             unsafe_allow_html=True
-         )
+        )
+
+    
     st.markdown("---")
     st.markdown(
         """
@@ -7016,8 +7027,7 @@ elif app_mode == "🔥SMART TRIP PLANNER":
 # Part 4: B2G Government Policy What-If Simulator
 # -----------------------------------------------------------------------------
 elif app_mode == " WHAT-IF SCENARIO":
-
-    # =========================================================
+   # =========================================================
     # PAGE HEADER
     # =========================================================
 
@@ -7274,8 +7284,8 @@ elif app_mode == " WHAT-IF SCENARIO":
 
     x5_change = st.slider(
         "X5 • GDP per Capita",
-        min_value=-50,
-        max_value=50,
+        min_value=-100,
+        max_value=100,
         value=0,
         step=5,
         format="%d%%"
@@ -7399,7 +7409,7 @@ elif app_mode == " WHAT-IF SCENARIO":
     st.markdown("## 4️. Simulation Results")
 
     run_simulation = st.button(
-        "🚀 Run Policy Simulation",
+        "🚀 Run What-If Simulation",
         use_container_width=True
     )
 
@@ -7426,6 +7436,16 @@ elif app_mode == " WHAT-IF SCENARIO":
             scenario_prediction_log
         )
 
+        # -----------------------------------------------------
+        # Scenario Tourism Density Classification
+        # -----------------------------------------------------
+        if scenario_prediction < 8224.73:
+            scenario_tourism_level = "Low"
+        elif scenario_prediction <= 10467.83:
+            scenario_tourism_level = "Moderate"
+        else:
+            scenario_tourism_level = "High"
+
 
         # -----------------------------------------------------
         # Percentage change
@@ -7449,134 +7469,176 @@ elif app_mode == " WHAT-IF SCENARIO":
         # =====================================================
         # 8. KPI RESULTS
         # =====================================================
-
-        result_col1, result_col2, result_col3 = st.columns(3)
-
-
+        result_col1, result_col2, result_col3, result_col4 = st.columns(4)
+        # =========================================================
+        # ACTUAL TOURIST DENSITY
+        # =========================================================
         with result_col1:
-
-            st.metric(
-                "Current Predicted Tourist Density",
-                f"{current_prediction:,.2f}"
+            st.markdown(
+                "<div style='font-size:14px; color:gray;'>"
+                "Actual Tourist Density"
+                "</div>",
+                unsafe_allow_html=True
             )
-
-
+            st.markdown(
+                f"""
+                <div style="
+                font-size:28px;
+                font-weight:600;
+                margin-top:5px;
+                ">
+                {current_prediction:,.2f}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        # =========================================================
+        # SCENARIO PREDICTED TOURIST DENSITY
+        # =========================================================
         with result_col2:
-
-            st.metric(
-                "Scenario Predicted Tourist Density",
-                f"{scenario_prediction:,.2f}"
+            st.markdown(
+                "<div style='font-size:14px; color:gray;'>"
+                "Scenario Predicted Tourist Density"
+                "</div>",
+                unsafe_allow_html=True
             )
-
-
+            st.markdown(
+                f"""
+                <div style="
+                font-size:28px;
+                font-weight:600;
+                margin-top:5px;
+                ">
+                {scenario_prediction:,.2f}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        # =========================================================
+        # CHANGE IN TOURIST DENSITY
+        # =========================================================
         with result_col3:
-
+            st.markdown(
+                "<div style='font-size:14px; color:gray;'>"
+                "Change in Tourist Density"
+                "</div>",
+                unsafe_allow_html=True
+            )
             if pd.notna(prediction_change_pct):
-
-                st.metric(
-                    "Change in Tourist Density",
-                    f"{prediction_change_pct:+.2f}%"
+                if prediction_change_pct > 0:
+                    change_color = "#d62728"      # Red
+                elif prediction_change_pct < 0:
+                    change_color = "#2ca02c"      # Green
+                else:
+                    change_color = "#808080"      # Grey
+                st.markdown(
+                    f"""
+                    <div style="
+                    font-size:28px;
+                    font-weight:600;
+                    color:{change_color};
+                    margin-top:5px;
+                    ">
+                    {prediction_change_pct:+.2f}%
+                    </div>
+                    """,
+                    unsafe_allow_html=True
                 )
-
             else:
-
-                st.metric(
-                    "Change in Tourist Density",
-                    "N/A"
+                st.markdown(
+                    """
+                    <div style="
+                    font-size:28px;
+                    color:#808080;
+                    margin-top:5px;
+                    ">
+                    N/A
+                    </div>
+                    """,
+                    unsafe_allow_html=True
                 )
-
-
-        st.markdown("---")
-
-
-        # =====================================================
-        # 9. CURRENT VS SCENARIO CHART
-        # =====================================================
-
-        comparison_df = pd.DataFrame({
-
-            "Scenario": [
-                "Current",
-                "Policy Scenario"
-            ],
-
-            "Predicted Tourist Density": [
-                current_prediction,
-                scenario_prediction
-            ]
-        })
-
-
-        fig = px.bar(
-            comparison_df,
-            x="Scenario",
-            y="Predicted Tourist Density",
-            text="Predicted Tourist Density",
-            title=(
-                f"{selected_state}: "
-                "Current vs Policy Scenario"
+        # =========================================================
+        # SCENARIO TOURISM LEVEL
+        # =========================================================
+        with result_col4:
+            st.markdown(
+                "<div style='font-size:14px; color:gray;'>"
+                "Scenario Tourism Level"
+                "</div>",
+                unsafe_allow_html=True
             )
-        )
-
-
-        fig.update_traces(
-            texttemplate="%{text:.2f}",
-            textposition="outside"
-        )
-
-
-        fig.update_layout(
-            height=450,
-            margin=dict(
-                l=40,
-                r=40,
-                t=70,
-                b=40
+            
+            if scenario_tourism_level == "High":
+                level_color = "#d62728"      # Red
+            elif scenario_tourism_level == "Moderate":
+                level_color = "#e6a700"      # Yellow
+            else:
+                level_color = "#2ca02c"      # Green
+            st.markdown(
+                f"""
+                <div style="
+                font-size:28px;
+                font-weight:600;
+                color:{level_color};
+                margin-top:5px;
+                ">
+                {scenario_tourism_level}
+                </div>
+                """,
+                unsafe_allow_html=True
             )
-        )
-
-
-        st.plotly_chart(
-            fig,
-            use_container_width=True
-        )
-
 
         # =====================================================
         # 10. SCENARIO INTERPRETATION
         # =====================================================
-
         st.markdown("### 📊 Scenario Interpretation")
-
-
         if pd.notna(prediction_change_pct):
-
             if prediction_change_pct > 0:
-
                 st.warning(
-                    f"The simulated policy scenario is associated "
-                    f"with a {prediction_change_pct:.2f}% increase "
-                    f"in predicted tourist density compared with "
-                    f"the current condition."
+                    f"The policy scenario is associated with a "
+                    f"{prediction_change_pct:.2f}% increase in predicted "
+                    f"tourist density compared with the current condition."
                 )
-
+            
             elif prediction_change_pct < 0:
-
                 st.success(
-                    f"The simulated policy scenario is associated "
-                    f"with a {abs(prediction_change_pct):.2f}% decrease "
-                    f"in predicted tourist density compared with "
-                    f"the current condition."
+                    f"The policy scenario is associated with a "
+                    f"{abs(prediction_change_pct):.2f}% decrease in predicted "
+                    f"tourist density compared with the current condition."
                 )
-
+            
             else:
-
                 st.info(
-                    "The simulated policy scenario produces "
-                    "no change in predicted tourist density."
+                    "The policy scenario produces no change in predicted "
+                    "tourist density compared with the current condition."
                 )
-
-
+        # ---------------------------------------------------------
+        # Tourism Density Level Interpretation
+        # ---------------------------------------------------------
+        if scenario_tourism_level == "High":
+            st.error(
+                "🔴 High: The scenario indicates a high concentration "
+                "of tourist activity."
+            )
+        elif scenario_tourism_level == "Moderate":
+            st.warning(
+                "🟡 Moderate: The scenario indicates a moderate level "
+                "of tourist activity."
+            )
+        else:
+            st.success(
+                "🟢 Low: The scenario indicates a relatively low "
+                "concentration of tourist activity."
+            )
+        # ---------------------------------------------------------
+        # Threshold Reference
+        # ---------------------------------------------------------
+        st.caption(
+            "Tourism Density Classification: "
+            "Low: Tourist density < 8,224.73 | "
+            "Moderate = Tourist density between 8,224.73 and 10,467.83 | "
+            "High:Tourist density > 10,467.83"
+        )
         st.caption(
             "The simulation represents a model-based what-if scenario. "
             "It does not establish a causal policy effect or guarantee "
@@ -7585,14 +7647,14 @@ elif app_mode == " WHAT-IF SCENARIO":
 
 
         # =====================================================
-        # 11. MODEL INPUT COMPARISON
+        # 11. SCENARIO VARIABLE COMPARISON
         # =====================================================
-
-        st.markdown("### 🔍 Model Input Comparison")
-
-
+        st.markdown("### 🔍 Scenario Variable Comparison")
+        st.caption(
+            "Comparison of the current and simulated values for each "
+            "tourism-related indicator. Values are shown in their original scale."
+        )
         input_comparison = pd.DataFrame({
-
             "Feature": [
                 "X1 • Transit Hub Density",
                 "X2 • Digital Polarization Index",
@@ -7600,53 +7662,21 @@ elif app_mode == " WHAT-IF SCENARIO":
                 "X4 • Accommodation Capacity Density",
                 "X5 • GDP per Capita"
             ],
-
             "Current": [
-                current_model_input[
-                    "x1_transit_density_log"
-                ].iloc[0],
-
-                current_model_input[
-                    "x2_digital_index"
-                ].iloc[0],
-
-                current_model_input[
-                    "x3_state_score"
-                ].iloc[0],
-
-                current_model_input[
-                    "x4_accommodation_density_log"
-                ].iloc[0],
-
-                current_model_input[
-                    "x5_gdp_per_capita_log"
-                ].iloc[0]
+                raw_current_values["X1"],
+                raw_current_values["X2"],
+                raw_current_values["X3"],
+                raw_current_values["X4"],
+                raw_current_values["X5"]
             ],
-
             "Scenario": [
-                scenario_model_input[
-                    "x1_transit_density_log"
-                ].iloc[0],
-
-                scenario_model_input[
-                    "x2_digital_index"
-                ].iloc[0],
-
-                scenario_model_input[
-                    "x3_state_score"
-                ].iloc[0],
-
-                scenario_model_input[
-                    "x4_accommodation_density_log"
-                ].iloc[0],
-
-                scenario_model_input[
-                    "x5_gdp_per_capita_log"
-                ].iloc[0]
+                scenario_x1_raw,
+                scenario_x2_raw,
+                scenario_x3_raw,
+                scenario_x4_raw,
+                scenario_x5_raw
             ]
         })
-
-
         st.dataframe(
             input_comparison,
             use_container_width=True,

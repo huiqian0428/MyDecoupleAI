@@ -7006,7 +7006,7 @@ elif app_mode == " WHAT-IF SCENARIO":
         unsafe_allow_html=True
     )
 
-    st.markdown("---"）
+    st.markdown("---")
 
 
     # =========================================================

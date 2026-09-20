@@ -2049,14 +2049,19 @@ elif app_mode == "OVERVIEW":
     # PAGE HEADER
     # -----------------------------------------------------
 
-    st.markdown("""
-    <div class="overview-title"><h1 style='text-align:center;'>Tourism Overview</div>
-    <div class="overview-subtitle"><p style='text-align:center;'>
+    st.markdown(
+        "<h1 style='text-align:center;'>Tourism Overview</h1>",
+        unsafe_allow_html=True
+        )
+    st.markdown(
+        """
+        <p style='text-align:center; font-size:17px;'>
         Explore Malaysia's domestic tourism activity,
         visitor behaviour, tourism receipts, destinations
         and accommodation distribution.
-    </div>
-    """, unsafe_allow_html=True)
+        </p>
+        """,
+        unsafe_allow_html=True)
 
     # -----------------------------------------------------
     # LOAD DATASETS

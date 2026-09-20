@@ -6395,13 +6395,19 @@ elif app_mode == "🔥SMART TRIP PLANNER":
     # PAGE HEADER
     # =========================================================
 
-    st.title("🗺️ Smart Trip Planner")
-
-    st.caption(
-        "Find destinations that match your travel preferences "
-        "while supporting a more balanced tourism distribution across Malaysia."
+    st.markdown(
+        "<h1 style='text-align:center;'>🗺️ Smart Trip Planner</h1>",
+        unsafe_allow_html=True
     )
-
+    st.markdown(
+        """
+        <p style='text-align:center; font-size:17px;'>
+            Find destinations that match your travel preferences while supporting a more balanced tourism distribution across Malaysia.
+        </p>
+        """,
+        unsafe_allow_html=True
+        )
+    
     st.markdown("### Plan Your Trip")
 
     # =========================================================

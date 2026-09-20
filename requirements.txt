@@ -7,3 +7,4 @@ streamlit-folium
 joblib==1.5.2
 openpyxl
 scikit-learn==1.7.1
+streamlit.components.v1

@@ -1807,88 +1807,117 @@ if app_mode == "HOME":
 
     col_text, col_stats = st.columns([2, 1])
 
-    with col_text:
-        st.markdown(
-            '<div class="section-label">01 — About Malaysia Tourism</div>',
-        unsafe_allow_html=True
-        )
-        st.markdown(
-             '<div class="section-heading">Welcome to Malaysia</div>',
-        unsafe_allow_html=True
-        )
-
-        st.markdown(
-            """
-            <p class="section-text">
-            Malaysia is a multicultural nation that blends the traditions and cultures of Malay, Chinese, Indian, and various indigenous communities. Its rich cultural heritage, tropical rainforests, islands and beaches, and vibrant cities offer visitors a diverse range of travel experiences.
-            </p>
-
-            <p class="section-text">
-            Malaysia is also a culinary paradise, bringing together the unique flavors and cuisines of its various ethnic groups. Beyond exploring its multicultural landscape and natural scenery, visitors can venture into Sabah and Sarawak to experience the cultures of indigenous peoples such as the Kadazan-Dusun and the Iban.
-            </p>
-            """,
-            unsafe_allow_html=True
-        )
-
     with col_stats:
+
         st.markdown(
             """
             <style>
+
+            /* =========================================
+               MALAYSIA TOURISM IMAGE SLIDESHOW
+               ========================================= */
+
             .tourism-slideshow {
-            position: relative;
-            width: 100%;
-            height: 430px;
-            overflow: hidden;
-            border-radius: 18px;
+                position: relative;
+                width: 100%;
+                aspect-ratio: 16 / 10;
+                overflow: hidden;
+                border-radius: 18px;
+                margin-top: 10px;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
             }
-            .tourism-slideshow img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 18px;
-            opacity: 0;
-            animation: tourismSlide 12s infinite;
+
+            .tourism-slide {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 18px;
+
+                opacity: 0;
+                animation: tourismFade 15s infinite;
             }
-            .tourism-slideshow img:nth-child(1) {
-            animation-delay: 0s;
+
+            /* 5 images × 3 seconds */
+
+            .tourism-slide:nth-child(1) {
+                animation-delay: 0s;
             }
-            .tourism-slideshow img:nth-child(2) {
-            animation-delay: 3s;
+
+            .tourism-slide:nth-child(2) {
+                animation-delay: 3s;
             }
-            .tourism-slideshow img:nth-child(3) {
-            animation-delay: 6s;
+
+            .tourism-slide:nth-child(3) {
+                animation-delay: 6s;
             }
-            .tourism-slideshow img:nth-child(4) {
-            animation-delay: 9s;
+
+            .tourism-slide:nth-child(4) {
+                animation-delay: 9s;
             }
-            @keyframes tourismSlide {
-            0% {
-            opacity: 0;
+
+            .tourism-slide:nth-child(5) {
+                animation-delay: 12s;
             }
-            8% {
-            opacity: 1;
+
+            @keyframes tourismFade {
+
+                0% {
+                    opacity: 0;
+                }
+
+                6% {
+                    opacity: 1;
+                }
+
+                20% {
+                    opacity: 1;
+                }
+
+                26% {
+                    opacity: 0;
+                }
+
+                100% {
+                    opacity: 0;
+                }
+
             }
-            25% {
-            opacity: 1;
-            }
-            33% {
-            opacity: 0;
-            }
-            100% {
-            opacity: 0;
-            }
-            }
+
             </style>
+
             <div class="tourism-slideshow">
-            <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=900&q=80">
-            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80">
-            <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=900&q=80">
-            <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=900&q=80">
+
+                <img
+                    class="tourism-slide"
+                    src="Melaka.jpeg"
+                >
+
+                <img
+                    class="tourism-slide"
+                    src="Sabah Kundasang.jpeg"
+                >
+
+                <img
+                    class="tourism-slide"
+                    src="port dickson.jpeg"
+                >
+
+                <img
+                    class="tourism-slide"
+                    src="penang-hill.jpg"
+                >
+
+                <img
+                    class="tourism-slide"
+                    src="mosque.jpeg"
+                >
+
             </div>
             """,
-            unsafe_allow_html=True)
-
+            unsafe_allow_html=True
+        )
     st.write("")
     st.divider()
 

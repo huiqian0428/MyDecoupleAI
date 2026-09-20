@@ -1831,19 +1831,17 @@ if app_mode == "HOME":
         )
 
     with col_stats:
-
-    st.markdown(
-        """
-        <style>
-        .tourism-slideshow {
+        st.markdown(
+            """
+            <style>
+            .tourism-slideshow {
             position: relative;
             width: 100%;
             height: 430px;
             overflow: hidden;
             border-radius: 18px;
-        }
-
-        .tourism-slideshow img {
+            }
+            .tourism-slideshow img {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -1851,61 +1849,45 @@ if app_mode == "HOME":
             border-radius: 18px;
             opacity: 0;
             animation: tourismSlide 12s infinite;
-        }
-
-        .tourism-slideshow img:nth-child(1) {
+            }
+            .tourism-slideshow img:nth-child(1) {
             animation-delay: 0s;
-        }
-
-        .tourism-slideshow img:nth-child(2) {
+            }
+            .tourism-slideshow img:nth-child(2) {
             animation-delay: 3s;
-        }
-
-        .tourism-slideshow img:nth-child(3) {
+            }
+            .tourism-slideshow img:nth-child(3) {
             animation-delay: 6s;
-        }
-
-        .tourism-slideshow img:nth-child(4) {
+            }
+            .tourism-slideshow img:nth-child(4) {
             animation-delay: 9s;
-        }
-
-        @keyframes tourismSlide {
+            }
+            @keyframes tourismSlide {
             0% {
-                opacity: 0;
+            opacity: 0;
             }
-
             8% {
-                opacity: 1;
+            opacity: 1;
             }
-
             25% {
-                opacity: 1;
+            opacity: 1;
             }
-
             33% {
-                opacity: 0;
+            opacity: 0;
             }
-
             100% {
-                opacity: 0;
+            opacity: 0;
             }
-        }
-        </style>
-
-        <div class="tourism-slideshow">
-
+            }
+            </style>
+            <div class="tourism-slideshow">
             <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=900&q=80">
-
             <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80">
-
             <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=900&q=80">
-
             <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=900&q=80">
-
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+            </div>
+            """,
+            unsafe_allow_html=True)
 
     st.write("")
     st.divider()

@@ -1,3 +1,4 @@
+%%writefile app.py
 import folium
 from streamlit_folium import st_folium
 import streamlit as st
@@ -23,657 +24,1250 @@ st.set_page_config(
 # Custom CSS styling for SDG Badges, Cards, Layout UI, Hero, and Footer
 st.markdown("""
 <style>
-    /* SDG Badges */
-    .sdg-badge {
-        display: inline-block;
-        padding: 4px 12px;
-        margin-right: 8px;
-        border-radius: 15px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        color: white;
-    }
-    .sdg-8 { background-color: #A21942; }
-    .sdg-12 { background-color: #BF8B2E; }
 
-    /* Hero Banner 容器 */
+/* =========================================================
+   MYDECOUPLE AI — FIXED LIGHT MODE
+   ========================================================= */
+
+/* =========================================================
+   1. GLOBAL LIGHT MODE
+   ========================================================= */
+
+html,
+body {
+    background-color: #ffffff !important;
+    color: #222222 !important;
+}
+
+/* Main Streamlit application */
+[data-testid="stAppViewContainer"] {
+    background-color: #ffffff !important;
+    color: #222222 !important;
+}
+
+/* Main content area */
+[data-testid="stMain"] {
+    background-color: #F7F9FC !important;
+    color: #222222 !important;
+}
+
+/* Main block */
+[data-testid="stMainBlockContainer"] {
+    background-color: #F7F9FC !important;
+}
+
+/* Streamlit header */
+[data-testid="stHeader"] {
+    background-color: #ffffff !important;
+}
+
+/* Prevent transparent/dark containers */
+[data-testid="stVerticalBlock"],
+[data-testid="stHorizontalBlock"] {
+    color: #222222;
+}
+
+
+/* =========================================================
+   2. SIDEBAR — FIXED LIGHT
+   ========================================================= */
+
+section[data-testid="stSidebar"] {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+}
+
+section[data-testid="stSidebar"] > div {
+    background-color: #ffffff !important;
+}
+
+/* Sidebar text */
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] span {
+    color: #333333;
+}
+
+/* Sidebar navigation buttons */
+section[data-testid="stSidebar"] .stButton > button {
+    width: 100%;
+    text-align: left;
+
+    border: none !important;
+    background-color: transparent !important;
+
+    padding: 12px 15px;
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    color: #333333 !important;
+
+    transition: all 0.2s ease;
+}
+
+section[data-testid="stSidebar"] .stButton > button:hover {
+    background-color: #EAF2F8 !important;
+    color: #1F77B4 !important;
+    border: none !important;
+}
+
+
+/* =========================================================
+   3. SIDEBAR BRANDING
+   ========================================================= */
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 4px 18px 4px;
+}
+
+.sidebar-logo {
+    width: 52px;
+    height: 52px;
+
+    object-fit: contain;
+    border-radius: 50%;
+
+    flex-shrink: 0;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+
+    border: 2px solid #E0E0E0;
+}
+
+.sidebar-brand-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.sidebar-title {
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #1F4E79 !important;
+
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.sidebar-subtitle {
+    font-size: 10px;
+
+    color: #777777 !important;
+
+    line-height: 1.3;
+    margin-top: 4px;
+}
+
+
+/* =========================================================
+   4. SIDEBAR INPUTS / SELECTBOXES
+   ========================================================= */
+
+/* Selectbox */
+section[data-testid="stSidebar"] div[data-baseweb="select"] > div {
+    background-color: #ffffff !important;
+    color: #222222 !important;
+
+    border-color: #D1D5DB !important;
+}
+
+/* Selectbox text */
+section[data-testid="stSidebar"]
+div[data-baseweb="select"] span {
+    color: #222222 !important;
+}
+
+/* Number input */
+section[data-testid="stSidebar"] input {
+    background-color: #ffffff !important;
+    color: #222222 !important;
+
+    border-color: #D1D5DB !important;
+}
+
+/* Slider labels */
+section[data-testid="stSidebar"] [data-testid="stSlider"] {
+    color: #222222 !important;
+}
+
+
+/* =========================================================
+   5. SDG BADGES
+   ========================================================= */
+
+.sdg-badge {
+    display: inline-block;
+
+    padding: 4px 12px;
+    margin-right: 8px;
+
+    border-radius: 15px;
+
+    font-weight: 600;
+    font-size: 0.85rem;
+
+    color: #ffffff !important;
+}
+
+.sdg-8 {
+    background-color: #A21942;
+}
+
+.sdg-12 {
+    background-color: #BF8B2E;
+}
+
+
+/* =========================================================
+   6. HERO BANNER
+   ========================================================= */
+
+.hero-container {
+    position: relative;
+
+    border-radius: 12px;
+
+    padding: 40px 32px;
+    margin: 10px 0 25px 0;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    color: #ffffff !important;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: linear-gradient(
+        135deg,
+        rgba(0,0,0,0.75) 0%,
+        rgba(0,0,0,0.45) 100%
+    );
+
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 2.3rem;
+    font-weight: 800;
+
+    color: #ffffff !important;
+
+    margin-top: 15px;
+    margin-bottom: 8px;
+
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+
+    color: #60A5FA !important;
+
+    margin-bottom: 20px;
+}
+
+.hero-quote {
+    background: rgba(255,255,255,0.12);
+
+    backdrop-filter: blur(4px);
+
+    border-left: 4px solid #3B82F6;
+
+    padding: 14px 18px;
+
+    border-radius: 6px;
+
+    font-size: 0.95rem;
+
+    color: #F1F5F9 !important;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   7. GENERAL CARDS
+   ========================================================= */
+
+.metric-card {
+    background-color: #FFFFFF !important;
+
+    border-left: 5px solid #1F77B4;
+
+    padding: 15px;
+
+    border-radius: 5px;
+
+    margin-bottom: 10px;
+
+    color: #222222 !important;
+}
+
+.engine-card {
+    background-color: #FFFFFF !important;
+
+    border: 1px solid #E0E0E0;
+
+    border-radius: 8px;
+
+    padding: 20px;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+    color: #222222 !important;
+}
+
+
+/* =========================================================
+   8. HOME PAGE — FORMAL SECTIONS
+   ========================================================= */
+
+.section-label {
+    color: #1F77B4 !important;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 8px;
+}
+
+.section-heading {
+    font-size: 2rem;
+    font-weight: 800;
+
+    color: #1F2937 !important;
+
+    margin-bottom: 12px;
+}
+
+.section-text {
+    font-size: 1rem;
+    line-height: 1.8;
+
+    color: #4B5563 !important;
+}
+
+.home-info-card {
+    background: #FFFFFF !important;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 12px;
+
+    padding: 24px;
+
+    height: 100%;
+
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+
+    color: #222222 !important;
+}
+
+.home-info-card h3 {
+    color: #1F4E79 !important;
+
+    font-size: 1.15rem;
+
+    margin-bottom: 10px;
+}
+
+.home-info-card p {
+    color: #4B5563 !important;
+
+    font-size: 0.95rem;
+
+    line-height: 1.7;
+}
+
+.challenge-card {
+    background: #F8FAFC !important;
+
+    border-radius: 10px;
+
+    padding: 22px;
+
+    border-top: 4px solid #1F77B4;
+
+    height: 100%;
+
+    color: #222222 !important;
+}
+
+.challenge-card h4 {
+    color: #1F4E79 !important;
+
+    font-size: 1rem;
+
+    margin-bottom: 8px;
+}
+
+.challenge-card p {
+    color: #6B7280 !important;
+
+    font-size: 0.9rem;
+
+    line-height: 1.6;
+}
+
+.solution-box {
+    background: linear-gradient(
+        135deg,
+        #EFF6FF,
+        #F8FAFC
+    ) !important;
+
+    border: 1px solid #DBEAFE;
+
+    border-radius: 14px;
+
+    padding: 30px;
+
+    margin-top: 10px;
+
+    color: #222222 !important;
+}
+
+
+/* =========================================================
+   9. VISION / MISSION
+   ========================================================= */
+
+.vision-box,
+.mission-box {
+    height: 220px;
+
+    padding: 28px;
+
+    border-radius: 12px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+.vision-box {
+    background-color: #1F4E79 !important;
+    color: #FFFFFF !important;
+}
+
+.mission-box {
+    background-color: #F8FAFC !important;
+
+    border: 1px solid #E5E7EB;
+
+    color: #222222 !important;
+}
+
+.vision-box h3,
+.mission-box h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+
+    font-size: 1.25rem;
+}
+
+.vision-box p,
+.mission-box p {
+    margin-bottom: 0;
+
+    line-height: 1.8;
+
+    font-size: 0.95rem;
+}
+
+.vision-box h3,
+.vision-box p {
+    color: #FFFFFF !important;
+}
+
+.mission-box h3 {
+    color: #1F4E79 !important;
+}
+
+.mission-box p {
+    color: #4B5563 !important;
+}
+
+
+/* =========================================================
+   10. EXPLORE PLATFORM BUTTONS
+   ========================================================= */
+
+[data-testid="stMain"] div.stButton > button {
+    width: 100%;
+
+    height: 150px;
+
+    background-color: #F8FAFC !important;
+
+    color: #1F4E79 !important;
+
+    border: 1px solid #E5E7EB !important;
+
+    border-radius: 12px;
+
+    font-weight: 600;
+
+    text-align: center;
+
+    transition: all 0.2s ease;
+
+    box-sizing: border-box;
+}
+
+[data-testid="stMain"] div.stButton > button:hover {
+    background-color: #1F4E79 !important;
+
+    color: #FFFFFF !important;
+
+    border-color: #1F4E79 !important;
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+}
+
+[data-testid="stMain"] div.stButton > button p {
+    font-size: 1rem !important;
+
+    font-weight: 600 !important;
+
+    margin: 0 !important;
+
+    color: inherit !important;
+}
+
+
+/* =========================================================
+   11. STEPS / IMPACT
+   ========================================================= */
+
+.step-number {
+    background: #1F77B4 !important;
+
+    color: #FFFFFF !important;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+}
+
+.impact-card {
+    background: #FFFFFF !important;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    height: 100%;
+
+    color: #222222 !important;
+}
+
+.impact-card h4 {
+    color: #1F4E79 !important;
+
+    margin-bottom: 8px;
+}
+
+.impact-card p {
+    font-size: 0.9rem;
+
+    color: #6B7280 !important;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   12. HOME CTA
+   ========================================================= */
+
+.home-cta {
+    background: #B9D5EB !important;
+
+    border: 1px solid #84AFD1;
+
+    border-radius: 16px;
+
+    padding: 35px;
+
+    text-align: center;
+
+    margin-top: 20px;
+
+    color: #222222 !important;
+}
+
+.home-cta h2 {
+    color: #1F4E79 !important;
+
+    font-size: 1.6rem;
+
+    font-weight: 700;
+
+    margin-top: 0;
+
+    margin-bottom: 12px;
+}
+
+.home-cta p {
+    color: #4B5563 !important;
+
+    font-size: 0.95rem;
+
+    line-height: 1.7;
+
+    max-width: 850px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   13. OVERVIEW PAGE
+   ========================================================= */
+
+.overview-title {
+    font-size: 36px;
+
+    font-weight: 800;
+
+    color: #12355B !important;
+
+    margin-bottom: 4px;
+}
+
+.overview-subtitle {
+    font-size: 15px;
+
+    color: #64748B !important;
+
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 24px;
+
+    font-weight: 750;
+
+    color: #12355B !important;
+
+    margin-top: 20px;
+
+    margin-bottom: 15px;
+}
+
+.section-description {
+    font-size: 14px;
+
+    color: #64748B !important;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   14. OVERVIEW KPI CARDS
+   ========================================================= */
+
+.metric-card {
+    background: #FFFFFF !important;
+
+    border-radius: 16px;
+
+    padding: 22px;
+
+    min-height: 135px;
+
+    border: 1px solid #E2E8F0;
+
+    box-shadow: 0 4px 14px rgba(15,23,42,0.05);
+
+    transition: 0.2s ease;
+
+    color: #222222 !important;
+}
+
+.metric-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 8px 20px rgba(15,23,42,0.10);
+}
+
+.metric-label {
+    font-size: 13px;
+
+    color: #64748B !important;
+
+    font-weight: 600;
+
+    margin-bottom: 10px;
+}
+
+.metric-value {
+    font-size: 27px;
+
+    font-weight: 800;
+
+    color: #12355B !important;
+
+    line-height: 1.2;
+}
+
+.metric-icon {
+    font-size: 25px;
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   15. CHART CARDS
+   ========================================================= */
+
+.chart-card {
+    background: #FFFFFF !important;
+
+    border-radius: 16px;
+
+    padding: 10px 18px 12px 18px;
+
+    border: 1px solid #E2E8F0;
+
+    box-shadow: 0 3px 12px rgba(15,23,42,0.04);
+
+    color: #222222 !important;
+}
+
+
+/* =========================================================
+   16. FILTER BOX
+   ========================================================= */
+
+.filter-box {
+    background: #EAF2F8 !important;
+
+    border-left: 5px solid #2E86AB;
+
+    border-radius: 12px;
+
+    padding: 15px 20px 5px 20px;
+
+    margin-bottom: 25px;
+
+    color: #222222 !important;
+}
+
+
+/* =========================================================
+   17. INFO BANNER
+   ========================================================= */
+
+.info-banner {
+    background: linear-gradient(
+        135deg,
+        #12355B,
+        #1D6A96
+    ) !important;
+
+    color: #FFFFFF !important;
+
+    border-radius: 18px;
+
+    padding: 24px 28px;
+
+    margin-bottom: 28px;
+}
+
+.info-banner h3 {
+    color: #FFFFFF !important;
+
+    margin-bottom: 8px;
+}
+
+.info-banner p {
+    color: #E2E8F0 !important;
+
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   18. POWER BI
+   ========================================================= */
+
+.powerbi-container {
+    width: 100%;
+
+    margin: 20px 0 30px 0;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    background-color: #F8FAFC !important;
+
+    border: 1px solid #E5E7EB;
+}
+
+.powerbi-container iframe {
+    width: 100%;
+
+    height: 700px;
+
+    border: none;
+
+    display: block;
+}
+
+
+/* =========================================================
+   19. DATASET PREVIEW
+   ========================================================= */
+
+.dataset-card {
+    background: #FFFFFF !important;
+
+    border-radius: 16px;
+
+    padding: 18px;
+
+    border: 1px solid #E2E8F0;
+
+    color: #222222 !important;
+}
+
+
+/* =========================================================
+   20. MANAGEMENT / MEMBERSHIP CARDS
+   ========================================================= */
+
+.member-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 28px;
+
+    padding: 24px 16px;
+
+    margin-bottom: 12px;
+
+    background: #FFFFFF !important;
+
+    border-bottom: 1px solid #F0F0F0;
+
+    transition: all 0.3s ease;
+
+    color: #222222 !important;
+}
+
+.member-avatar {
+    width: 110px;
+    height: 110px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+
+    border: 3px solid #FFFFFF;
+
+    flex-shrink: 0;
+}
+
+.member-name {
+    font-size: 22px;
+
+    font-weight: 700;
+
+    color: #222222 !important;
+
+    margin-bottom: 4px;
+}
+
+.member-role {
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #7F8C8D !important;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.8px;
+
+    margin-bottom: 10px;
+}
+
+.member-contact {
+    font-size: 14px;
+
+    color: #555555 !important;
+
+    line-height: 1.6;
+}
+
+.member-contact a {
+    color: #1F77B4 !important;
+
+    text-decoration: none;
+}
+
+.member-contact a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   21. OFFICIAL FOOTER
+   ========================================================= */
+
+.custom-footer-container {
+    margin-top: 50px;
+
+    width: 100%;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+.custom-footer-top {
+    background-color: #333333 !important;
+
+    color: #FFFFFF !important;
+
+    padding: 30px 40px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    font-family:
+        'Segoe UI',
+        Tahoma,
+        Geneva,
+        Verdana,
+        sans-serif;
+}
+
+.footer-col-logo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.footer-col-logo img {
+    width: 60px;
+    height: 60px;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+.footer-logo-title {
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #FFFFFF !important;
+}
+
+.footer-logo-sub {
+    font-size: 12px;
+
+    color: #AAAAAA !important;
+}
+
+.footer-col-address {
+    max-width: 300px;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    color: #DDDDDD !important;
+}
+
+.footer-col-address strong {
+    font-size: 14px;
+
+    color: #FFFFFF !important;
+
+    display: block;
+
+    margin-bottom: 4px;
+}
+
+.footer-col-contact {
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    color: #DDDDDD !important;
+}
+
+.footer-col-contact strong {
+    color: #FFFFFF !important;
+}
+
+.footer-col-hotline {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.hotline-icon {
+    font-size: 28px;
+
+    line-height: 1;
+}
+
+.hotline-details {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.hotline-title {
+    font-size: 11px;
+
+    font-weight: 700;
+
+    color: #FF5252 !important;
+
+    text-transform: uppercase;
+}
+
+.hotline-number {
+    font-size: 22px;
+
+    font-weight: 800;
+
+    color: #FF5252 !important;
+
+    line-height: 1.1;
+}
+
+.hotline-hours {
+    font-size: 10px;
+
+    color: #FF8A8A !important;
+}
+
+.custom-footer-bottom {
+    background-color: #1A1A1A !important;
+
+    color: #888888 !important;
+
+    text-align: center;
+
+    padding: 15px 20px;
+
+    font-size: 12px;
+
+    border-top: 1px solid #2A2A2A;
+}
+
+.custom-footer-bottom a {
+    color: #CCCCCC !important;
+
+    text-decoration: none;
+
+    margin: 0 8px;
+}
+
+.custom-footer-bottom a:hover {
+    color: #FFFFFF !important;
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   22. DIVIDER
+   ========================================================= */
+
+hr {
+    border: none;
+
+    border-top: 1px solid #E2E8F0;
+
+    margin: 35px 0;
+}
+
+
+/* =========================================================
+   23. STREAMLIT NATIVE TEXT INPUTS
+   ========================================================= */
+
+[data-testid="stMain"] input,
+[data-testid="stMain"] textarea {
+    background-color: #FFFFFF !important;
+
+    color: #222222 !important;
+
+    border-color: #D1D5DB !important;
+}
+
+
+/* =========================================================
+   24. STREAMLIT NATIVE SELECTBOX
+   ========================================================= */
+
+[data-testid="stMain"] div[data-baseweb="select"] > div {
+    background-color: #FFFFFF !important;
+
+    color: #222222 !important;
+
+    border-color: #D1D5DB !important;
+}
+
+[data-testid="stMain"] div[data-baseweb="select"] span {
+    color: #222222 !important;
+}
+
+
+/* =========================================================
+   25. STREAMLIT NATIVE NUMBER INPUT
+   ========================================================= */
+
+[data-testid="stMain"] [data-testid="stNumberInput"] input {
+    background-color: #FFFFFF !important;
+
+    color: #222222 !important;
+}
+
+
+/* =========================================================
+   26. STREAMLIT EXPANDER
+   ========================================================= */
+
+[data-testid="stExpander"] {
+    background-color: #FFFFFF !important;
+
+    border: 1px solid #E2E8F0 !important;
+
+    color: #222222 !important;
+}
+
+[data-testid="stExpander"] summary {
+    color: #222222 !important;
+}
+
+
+/* =========================================================
+   27. STREAMLIT DATAFRAME
+   ========================================================= */
+
+[data-testid="stDataFrame"] {
+    background-color: #FFFFFF !important;
+}
+
+
+/* =========================================================
+   28. MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
     .hero-container {
-        position: relative;
-        border-radius: 12px;
-        padding: 40px 32px;
-        margin: 10px 0 25px 0;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: #ffffff;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        overflow: hidden;
-    }
-
-    .hero-overlay {
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.45) 100%);
-        z-index: 1;
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 2;
+        padding: 30px 20px;
     }
 
     .hero-title {
-        font-size: 2.3rem;
-        font-weight: 800;
-        color: #ffffff !important;
-        margin-top: 15px;
-        margin-bottom: 8px;
-        line-height: 1.2;
+        font-size: 1.8rem;
     }
 
     .hero-subtitle {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #60a5fa !important;
-        margin-bottom: 20px;
+        font-size: 1rem;
     }
 
-    .hero-quote {
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(4px);
-        border-left: 4px solid #3b82f6;
-        padding: 14px 18px;
-        border-radius: 6px;
-        font-size: 0.95rem;
-        color: #f1f5f9;
-        line-height: 1.5;
-    }
+    .member-card {
+        flex-direction: column;
 
-    /* Cards */
-    .metric-card {
-        background-color: #f8f9fa;
-        border-left: 5px solid #1f77b4;
-        padding: 15px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
-    .engine-card {
-        background-color: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
+        align-items: flex-start;
 
-    /* Sidebar Buttons */
-    section[data-testid="stSidebar"] .stButton > button {
-        width: 100%;
-        text-align: left;
-        border: none;
-        background-color: transparent;
-        padding: 12px 15px;
-        border-radius: 8px;
-        font-size: 15px;
-        font-weight: 500;
-        color: #333333;
-        transition: all 0.2s ease;
-    }
-    section[data-testid="stSidebar"] .stButton > button:hover {
-        background-color: #eaf2f8;
-        color: #1f77b4;
-        border: none;
-    }
-
-    /* Sidebar Branding */
-    .sidebar-brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 8px 4px 18px 4px;
-    }
-    .sidebar-logo {
-        width: 52px;
-        height: 52px;
-        object-fit: contain;
-        border-radius: 50%;
-        flex-shrink: 0;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        border: 2px solid #e0e0e0;
-    }
-    .sidebar-brand-text {
-        flex: 1;
-        min-width: 0;
-    }
-    .sidebar-title {
-        font-size: 18px;
-        font-weight: 700;
-        color: #1f4e79;
-        line-height: 1.2;
-        white-space: nowrap;
-    }
-    .sidebar-subtitle {
-        font-size: 10px;
-        color: #777777;
-        line-height: 1.3;
-        margin-top: 4px;
-    }
-
-    /* Official Footer Styling */
-    .custom-footer-container {
-        margin-top: 50px;
-        width: 100%;
-        border-radius: 8px;
-        overflow: hidden;
-        box-sizing: border-box;
-    }
-    .custom-footer-top {
-        background-color: #333333;
-        color: #ffffff;
-        padding: 30px 40px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        gap: 20px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .footer-col-logo {
-        display: flex;
-        align-items: center;
         gap: 15px;
     }
-    .footer-col-logo img {
-        width: 60px;
-        height: 60px;
-        object-fit: contain;
-        border-radius: 50%;
-        border: 2px solid rgba(255,255,255,0.2);
-    }
-    .footer-logo-title {
-        font-size: 20px;
-        font-weight: 700;
-        color: #ffffff;
-    }
-    .footer-logo-sub {
-        font-size: 12px;
-        color: #aaaaaa;
-    }
-    .footer-col-address {
-        max-width: 300px;
-        font-size: 13px;
-        line-height: 1.5;
-        color: #dddddd;
-    }
-    .footer-col-address strong {
-        font-size: 14px;
-        color: #ffffff;
-        display: block;
-        margin-bottom: 4px;
-    }
-    .footer-col-contact {
-        font-size: 13px;
-        line-height: 1.6;
-        color: #dddddd;
-    }
-    .footer-col-contact strong {
-        color: #ffffff;
-    }
-    .footer-col-hotline {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    .hotline-icon {
-        font-size: 28px;
-        line-height: 1;
-    }
-    .hotline-details {
-        display: flex;
+
+    .custom-footer-top {
+        padding: 25px 20px;
+
         flex-direction: column;
-    }
-    .hotline-title {
-        font-size: 11px;
-        font-weight: 700;
-        color: #ff5252;
-        text-transform: uppercase;
-    }
-    .hotline-number {
-        font-size: 22px;
-        font-weight: 800;
-        color: #ff5252;
-        line-height: 1.1;
-    }
-    .hotline-hours {
-        font-size: 10px;
-        color: #ff8a8a;
-    }
-    .custom-footer-bottom {
-        background-color: #1a1a1a;
-        color: #888888;
-        text-align: center;
-        padding: 15px 20px;
-        font-size: 12px;
-        border-top: 1px solid #2a2a2a;
-    }
-    .custom-footer-bottom a {
-        color: #cccccc;
-        text-decoration: none;
-        margin: 0 8px;
-    }
-    .custom-footer-bottom a:hover {
-        color: #ffffff;
-        text-decoration: underline;
+
+        align-items: flex-start;
     }
 
-    /* Management / Membership Card Styling */
-    .member-card {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    padding: 24px 16px;
-    margin-bottom: 12px;
-    background: #ffffff;
-    border-bottom: 1px solid #f0f0f0;
-    transition: all 0.3s ease;
-    }
-    .member-avatar {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    border: 3px solid #ffffff;
-    flex-shrink: 0;
-    }
+}
 
-    .member-name {
-    font-size: 22px;
-    font-weight: 700;
-    color: #222222;
-    margin-bottom: 4px;
-    }
 
-    .member-role {
-    font-size: 13px;
-    font-weight: 600;
-    color: #7f8c8d;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-    }
+/* =========================================================
+   END — FIXED LIGHT MODE
+   ========================================================= */
 
-    .member-contact {
-    font-size: 14px;
-    color: #555555;
-    line-height: 1.6;
-    }
-
-    .member-contact a {
-    color: #1f77b4;
-    text-decoration: none;
-    }
-
-    .member-contact a:hover {
-    text-decoration: underline;
-    }
-
-        /* =====================================================
-       Formal Home Page Sections
-       ===================================================== */
-
-    .section-label {
-        color: #1f77b4;
-        font-size: 0.85rem;
-        font-weight: 700;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        margin-bottom: 8px;
-    }
-
-    .section-heading {
-        font-size: 2rem;
-        font-weight: 800;
-        color: #1f2937;
-        margin-bottom: 12px;
-    }
-
-    .section-text {
-        font-size: 1rem;
-        line-height: 1.8;
-        color: #4b5563;
-    }
-
-    .home-info-card {
-        background: #ffffff;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 24px;
-        height: 100%;
-        box-shadow: 0 3px 12px rgba(0,0,0,0.04);
-    }
-
-    .home-info-card h3 {
-        color: #1f4e79;
-        font-size: 1.15rem;
-        margin-bottom: 10px;
-    }
-
-    .home-info-card p {
-        color: #4b5563;
-        font-size: 0.95rem;
-        line-height: 1.7;
-    }
-
-    .challenge-card {
-        background: #f8fafc;
-        border-radius: 10px;
-        padding: 22px;
-        border-top: 4px solid #1f77b4;
-        height: 100%;
-    }
-
-    .challenge-card h4 {
-        color: #1f4e79;
-        font-size: 1rem;
-        margin-bottom: 8px;
-    }
-
-    .challenge-card p {
-        color: #6b7280;
-        font-size: 0.9rem;
-        line-height: 1.6;
-    }
-
-    .solution-box {
-        background: linear-gradient(135deg, #eff6ff, #f8fafc);
-        border: 1px solid #dbeafe;
-        border-radius: 14px;
-        padding: 30px;
-        margin-top: 10px;
-    }
-
-    .vision-box,
-    .mission-box {
-        height: 220px;
-        padding: 28px;
-        border-radius: 12px;
-        box-sizing: border-box;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .vision-box {
-        background-color: #1f4e79;
-        color: white;
-    }
-    
-    .mission-box {
-        background-color: #f8fafc;
-        border: 1px solid #e5e7eb;
-     }
-     
-     .vision-box h3,
-     .mission-box h3 {
-         margin-top: 0;
-         margin-bottom: 15px;
-         font-size: 1.25rem;
-         }
-         
-    .vision-box p,
-    .mission-box p {
-        margin-bottom: 0;
-        line-height: 1.8;
-        font-size: 0.95rem;
-    }
-
-    /* =================================================
-    EXPLORE PLATFORM BUTTONS
-    ================================================= */
-    /* =================================================
-    EXPLORE PLATFORM BUTTONS
-    ================================================= */
-
-    [data-testid="stMain"] div.stButton > button {
-        width: 100%;
-        height: 150px;
-
-        background-color: #f8fafc;
-        color: #1f4e79;
-
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-
-        font-weight: 600;
-        text-align: center;
-
-        transition: all 0.2s ease;
-
-        box-sizing: border-box;
-    }
-
-    /* Hover Effect */
-    [data-testid="stMain"] div.stButton > button:hover {
-        background-color: #1f4e79;
-        color: white;
-        border-color: #1f4e79;
-
-        transform: translateY(-3px);
-
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-    }
-
-    /* Button Text */
-    [data-testid="stMain"] div.stButton > button p {
-        font-size: 1.0rem !important;
-        font-weight: 600 !important;
-        margin: 0 !important;
-        color: inherit !important;
-    }
-    .step-number {
-        background: #1f77b4;
-        color: white;
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        margin-bottom: 12px;
-    }
-
-    .impact-card {
-        background: #ffffff;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        height: 100%;
-    }
-
-    .impact-card h4 {
-        color: #1f4e79;
-        margin-bottom: 8px;
-    }
-
-    .impact-card p {
-        font-size: 0.9rem;
-        color: #6b7280;
-        line-height: 1.6;
-    }
-
-    .home-cta {
-        background: #b9d5eb；
-        border：1px solid   #84afd1
-;
-        border-radius: 16px;
-        padding: 35px;
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .home-cta h2 {
-        color: #1f4e79;
-        font-size: 1.6rem;
-        font-weight: 700;
-        margin-top: 0;
-        margin-bottom: 12px;
-    }
-
-    .home-cta p {
-        color: #4b5563;
-        font-size: 0.95rem;
-        line-height: 1.7;
-        max-width: 850px;
-        margin: 0 auto;
-    }
-
-    # OVERVIEW PAGE STYLE
-
-    /* Main Background */
-    .main {
-        background-color: #F7F9FC;
-    }
-
-    /* Page Title */
-    .overview-title {
-        font-size: 36px;
-        font-weight: 800;
-        color: #12355B;
-        margin-bottom: 4px;
-    }
-
-    .overview-subtitle {
-        font-size: 15px;
-        color: #64748B;
-        margin-bottom: 25px;
-    }
-
-    /* Section Title */
-    .section-title {
-        font-size: 24px;
-        font-weight: 750;
-        color: #12355B;
-        margin-top: 20px;
-        margin-bottom: 15px;
-    }
-
-    .section-description {
-        font-size: 14px;
-        color: #64748B;
-        margin-bottom: 18px;
-    }
-
-    /* KPI Cards */
-    .metric-card {
-        background: white;
-        border-radius: 16px;
-        padding: 22px;
-        min-height: 135px;
-        border: 1px solid #E2E8F0;
-        box-shadow: 0px 4px 14px rgba(15, 23, 42, 0.05);
-        transition: 0.2s ease;
-    }
-
-    .metric-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0px 8px 20px rgba(15, 23, 42, 0.10);
-    }
-
-    .metric-label {
-        font-size: 13px;
-        color: #64748B;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    .metric-value {
-        font-size: 27px;
-        font-weight: 800;
-        color: #12355B;
-        line-height: 1.2;
-    }
-
-    .metric-icon {
-        font-size: 25px;
-        margin-bottom: 8px;
-    }
-
-    /* Chart Cards */
-    .chart-card {
-        background: white;
-        border-radius: 16px;
-        padding: 10px 18px 12px 18px;
-        border: 1px solid #E2E8F0;
-        box-shadow: 0px 3px 12px rgba(15, 23, 42, 0.04);
-    }
-
-    /* Filter Box */
-    .filter-box {
-        background: #EAF2F8;
-        border-left: 5px solid #2E86AB;
-        border-radius: 12px;
-        padding: 15px 20px 5px 20px;
-        margin-bottom: 25px;
-    }
-
-    /* Info Banner */
-    .info-banner {
-        background: linear-gradient(
-            135deg,
-            #12355B,
-            #1D6A96
-        );
-        color: white;
-        border-radius: 18px;
-        padding: 24px 28px;
-        margin-bottom: 28px;
-    }
-
-    .info-banner h3 {
-        color: white;
-        margin-bottom: 8px;
-    }
-
-    .info-banner p {
-        color: #E2E8F0;
-        margin-bottom: 0px;
-    }
-
-    /* =========================================================
-    POWER BI DASHBOARD
-    ========================================================= */
-    .powerbi-container {
-        width: 100%;
-        margin: 20px 0 30px 0;
-        border-radius: 12px;
-        overflow: hidden;
-        background-color: #f8fafc;
-        border: 1px solid #e5e7eb;
-    }
-
-    .powerbi-container iframe {
-        width: 100%;
-        height: 700px;
-        border: none;
-        display: block;
-    }
-
-    /* Dataset Preview */
-    .dataset-card {
-        background: white;
-        border-radius: 16px;
-        padding: 18px;
-        border: 1px solid #E2E8F0;
-    }
-
-    /* Divider */
-    hr {
-        border: none;
-        border-top: 1px solid #E2E8F0;
-        margin: 35px 0px;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -986,191 +1580,6 @@ def load_shap_state():
 
 df_shap_state = load_shap_state()
 
-# ============================================================
-# SHAP WEIGHTS
-# ============================================================
-
-def get_shap_weights(shap_df):
-
-    # Expected columns:
-    # Feature
-    # Contribution Shape
-
-    feature_col = None
-    contribution_col = None
-
-    for col in shap_df.columns:
-        col_lower = str(col).lower()
-
-        if "feature" in col_lower:
-            feature_col = col
-
-        if (
-            "contribution" in col_lower
-            or "importance" in col_lower
-        ):
-            contribution_col = col
-
-    if feature_col is None or contribution_col is None:
-        return {}
-
-    weights = {}
-
-    for _, row in shap_df.iterrows():
-
-        feature = str(
-            row[feature_col]
-        ).strip()
-
-        contribution = pd.to_numeric(
-            row[contribution_col],
-            errors="coerce"
-        )
-
-        if pd.isna(contribution):
-            continue
-
-        # Match X1-X5
-        for x_name in ML_FEATURES.keys():
-
-            if feature.upper().startswith(x_name):
-
-                weights[x_name] = float(
-                    contribution
-                )
-
-    # Normalize to 0–1
-    total = sum(weights.values())
-
-    if total > 0:
-        weights = {
-            k: v / total
-            for k, v in weights.items()
-        }
-
-    return weights
-
-
-SHAP_WEIGHTS = get_shap_weights(
-    df_shap_global
-)
-
-
-
-# ============================================================
-# STATE TOURISM PRESSURE
-# ============================================================
-
-def build_state_pressure(df):
-
-    latest_year = df["Year"].max()
-
-    latest = df[
-        df["Year"] == latest_year
-    ].copy()
-
-    # Keep valid tourist density
-    latest = latest.dropna(
-        subset=["State", TARGET]
-    )
-
-    # --------------------------------------------------------
-    # Tourist Density Score
-    # --------------------------------------------------------
-    min_y = latest[TARGET].min()
-    max_y = latest[TARGET].max()
-
-    if max_y > min_y:
-        latest["Tourist_Density_Score"] = (
-            latest[TARGET] - min_y
-        ) / (max_y - min_y)
-    else:
-        latest["Tourist_Density_Score"] = 0.5
-
-    # --------------------------------------------------------
-    # SHAP-weighted feature pressure
-    # --------------------------------------------------------
-    feature_scores = []
-
-    for x_name, column in ML_FEATURES.items():
-
-        if column not in latest.columns:
-            continue
-
-        values = pd.to_numeric(
-            latest[column],
-            errors="coerce"
-        )
-
-        min_x = values.min()
-        max_x = values.max()
-
-        if max_x > min_x:
-
-            latest[f"{x_name}_Score"] = (
-                values - min_x
-            ) / (max_x - min_x)
-
-        else:
-
-            latest[f"{x_name}_Score"] = 0.5
-
-        weight = SHAP_WEIGHTS.get(
-            x_name,
-            0
-        )
-
-        feature_scores.append(
-            latest[f"{x_name}_Score"] * weight
-        )
-
-    # --------------------------------------------------------
-    # SHAP Weighted Pressure
-    # --------------------------------------------------------
-    if feature_scores:
-
-        latest["SHAP_Pressure_Score"] = sum(
-            feature_scores
-        )
-
-    else:
-
-        latest["SHAP_Pressure_Score"] = 0
-
-    # --------------------------------------------------------
-    # Combined Tourism Pressure
-    # --------------------------------------------------------
-    latest["Tourism_Pressure"] = (
-        0.60 * latest["Tourist_Density_Score"]
-        + 0.40 * latest["SHAP_Pressure_Score"]
-    )
-
-    # --------------------------------------------------------
-    # Pressure Category
-    # --------------------------------------------------------
-    def pressure_category(score):
-
-        if score >= 0.75:
-            return "Very High"
-
-        elif score >= 0.50:
-            return "High"
-
-        elif score >= 0.25:
-            return "Moderate"
-
-        else:
-            return "Low"
-
-    latest["Pressure_Category"] = (
-        latest["Tourism_Pressure"]
-        .apply(pressure_category)
-    )
-
-    return latest
-
-
-df_state_pressure = build_state_pressure(df_ml)
 
 @st.cache_data
 def load_poi_data():
@@ -1643,57 +2052,13 @@ elif app_mode == "OVERVIEW":
     # -----------------------------------------------------
 
     st.markdown("""
-    <div class="overview-title">Tourism Overview</div>
-    <div class="overview-subtitle">
+    <div class="overview-title"><h1 style='text-align:center;'>Tourism Overview</div>
+    <div class="overview-subtitle"><p style='text-align:center;'>
         Explore Malaysia's domestic tourism activity,
         visitor behaviour, tourism receipts, destinations
         and accommodation distribution.
     </div>
     """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="info-banner">
-        <h3>Malaysia Tourism Intelligence</h3>
-        <p>
-        Explore tourism patterns across Malaysia through
-        interactive data visualisations covering visitors,
-        domestic trips, tourism receipts, travel purposes,
-        destinations and hotel capacity.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # =========================================================
-    # POWER BI DASHBOARD
-    # =========================================================
-    st.markdown(
-        '<div class="section-heading">Interactive Tourism Dashboard</div>',
-        unsafe_allow_html=True
-    )
-    st.markdown(
-        """
-        <p class="section-text">
-        Explore additional tourism insights through an interactive Power BI dashboard.
-        </p>
-        """,
-        unsafe_allow_html=True
-    )
-    
-    st.markdown(
-        """
-        <div class="powerbi-container">
-            <iframe
-                title="4SIGHT_Datathon2026_Dashboard"
-                src="https://app.powerbi.com/view?r=eyJrIjoiZjdiMjljYjItY2I5Yi00ZjFlLTgyOWYtNjZjMjQyNGM3NTQzIiwidCI6IjFmNTUxYWViLTdlYTEtNDcyYy05YWMwLTA5ZGU5YmYzMzA1MSIsImMiOjEwfQ%3D%3D&pageName=5e820162677e1acd80bc"
-                frameborder="0"
-                allowFullScreen="true">
-            </iframe>
-        </div>
-        """,
-        unsafe_allow_html=True
-   )
-
-
 
     # -----------------------------------------------------
     # LOAD DATASETS
@@ -2189,7 +2554,7 @@ elif app_mode == "OVERVIEW":
         accommodation_year,
         accommodation_state
     )
-
+    
     # -----------------------------------------------------
     # SECTION 1: KEY TOURISM INDICATORS
     # -----------------------------------------------------
@@ -2415,7 +2780,8 @@ elif app_mode == "OVERVIEW":
                         color: #475569;
                         margin-bottom: 8px;
                         ">
-                        📍 State: <span style="color:#12355B;">{selected_state}</span>
+                        📍 State: <span style="color:#12355B;
+                        ">{selected_state}</span>
                         </div>
                         """,
                         unsafe_allow_html=True)
@@ -2532,7 +2898,8 @@ elif app_mode == "OVERVIEW":
                         color: #475569;
                         margin-bottom: 8px;
                         ">
-                        📍 State: <span style="color:#12355B;">{selected_state}</span>
+                        📍 State: <span style="color:#12355B;
+                        ">{selected_state}</span>
                         </div>
                         """,
                         unsafe_allow_html=True)
@@ -2653,7 +3020,8 @@ elif app_mode == "OVERVIEW":
                     margin-bottom: 8px;
                     ">
                     📍 State:
-                    <span style="color:#12355B;">
+                    <span style="color:#12355B;
+                    ">
                     {selected_state}
                     </span>
                     </div>
@@ -5968,6 +6336,37 @@ elif app_mode == "OVERVIEW":
                     "<div style='height:10px;'></div>",
                     unsafe_allow_html=True
                 )
+    # =========================================================
+    # POWER BI DASHBOARD
+    # =========================================================
+    st.markdown(
+        '<div class="section-heading">Interactive Tourism Dashboard</div>',
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        """
+        <p class="section-text">
+        Explore additional tourism insights through an interactive Power BI dashboard.
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    st.markdown(
+        """
+        <div class="powerbi-container">
+            <iframe
+                title="4SIGHT_Datathon2026_Dashboard"
+                src="https://app.powerbi.com/view?r=eyJrIjoiZjdiMjljYjItY2I5Yi00ZjFlLTgyOWYtNjZjMjQyNGM3NTQzIiwidCI6IjFmNTUxYWViLTdlYTEtNDcyYy05YWMwLTA5ZGU5YmYzMzA1MSIsImMiOjEwfQ%3D%3D&pageName=5e820162677e1acd80bc"
+                frameborder="0"
+                allowFullScreen="true">
+            </iframe>
+        </div>
+        """,
+        unsafe_allow_html=True
+   )
+
+    
 
     # =====================================================
     # SECTION DIVIDER
@@ -6162,7 +6561,7 @@ elif app_mode == "🔥SMART TRIP PLANNER":
     state_df = state_df.dropna(
         subset=[
             "state_std",
-            "predicted_tourist_density_real"
+            "actual_tourist_density_real"
         ]
     ).copy()
 
@@ -6175,202 +6574,129 @@ elif app_mode == "🔥SMART TRIP PLANNER":
         st.stop()
 
     # =========================================================
-    # TOURISM PRESSURE
+    # TOURIST DENSITY POLICY REFERENCE
     # =========================================================
-
-    state_df["Tourism_Pressure"] = pd.to_numeric(
-        state_df[
-            "predicted_tourist_density_real"
-        ],
-        errors="coerce"
-    )
-
-    state_df = state_df.dropna(
-        subset=[
-            "Tourism_Pressure"
-        ]
-    ).copy()
-
-    min_pressure = (
-        state_df["Tourism_Pressure"].min()
-    )
-
-    max_pressure = (
-        state_df["Tourism_Pressure"].max()
-    )
-
-    if max_pressure > min_pressure:
-
-        state_df["Pressure_Suitability"] = (
-            1
-            - (
-                state_df["Tourism_Pressure"]
-                - min_pressure
-            )
-            / (
-                max_pressure
-                - min_pressure
-            )
-        ).clip(0, 1)
-
-    else:
-
-        state_df[
-            "Pressure_Suitability"
-        ] = 1.0
+    national_baseline = 9346.28
+    gov_overtourism_ceiling = 10467.83
+    gov_underutilized_floor = 8224.73
 
     # =========================================================
-    # TOURISM PRESSURE CATEGORY
+    # TOURIST DENSITY CLASSIFICATION
     # =========================================================
-
-    q33 = (
-        state_df["Tourism_Pressure"]
-        .quantile(0.33)
-    )
-
-    q67 = (
-        state_df["Tourism_Pressure"]
-        .quantile(0.67)
-    )
-
-    def pressure_category(value):
-
-        if value >= q67:
-
-            return "Higher Tourism Pressure"
-
-        elif value >= q33:
-
-            return "Moderate Tourism Pressure"
-
+    def classify_tourist_density(value):
+        # Below the underutilized floor
+        if value < gov_underutilized_floor:
+            return "Low"
+        # Between floor and national baseline
+        elif value <= national_baseline:
+            return "Medium"
+        # Between baseline and overtourism ceiling
+        elif value <= gov_overtourism_ceiling:
+            return "High"
+        # Above overtourism ceiling
         else:
-
-            return "Lower Tourism Pressure"
-
-    state_df[
-        "Pressure_Category"
-    ] = state_df[
-        "Tourism_Pressure"
-    ].apply(
-        pressure_category
-    )
-
+            return 0
+    state_df["Tourism_Density"] = (
+        state_df["actual_tourist_density_real"])
+    state_df["Tourism_Density_Category"] = (
+        state_df["Tourism_Density"]
+            .apply(classify_tourist_density))
+    # =========================================================
+    # TOURIST DENSITY SUITABILITY
+    # =========================================================
+    def calculate_density_suitability(value):
+        # Below the underutilized floor
+        if value < gov_underutilized_floor:
+            return max(
+                0,
+                value / gov_underutilized_floor
+            )
+        # Between floor and national baseline
+        elif value <= national_baseline:
+            return (
+                value / national_baseline
+            )
+        # Between baseline and overtourism ceiling
+        elif value <= gov_overtourism_ceiling:
+            return max(
+                0,1 - ((value - national_baseline)/ (gov_overtourism_ceiling- national_baseline)))
+        # Above overtourism ceiling
+        else:
+            return 0
+    state_df["Tourism_Density_Suitability"] = (
+        state_df["actual_tourist_density_real"]
+            .apply(calculate_density_suitability))
     # =========================================================
     # STATE SELECTION
     # =========================================================
-
     if user_state == "Smart Recommendation":
-
         recommended_states = (
             state_df
-            .sort_values(
-                "Pressure_Suitability",
-                ascending=False
-            )
-            .copy()
-        )
-
-        lower_pressure_states = (
-            recommended_states[
-                recommended_states[
-                    "Pressure_Category"
-                ]
-                == "Lower Tourism Pressure"
-            ]
-        )
-
-        if len(lower_pressure_states) >= 3:
-
-            candidate_states = (
-                lower_pressure_states.copy()
-            )
-
-        else:
-
-            candidate_states = (
-                recommended_states
-                .head(8)
-                .copy()
-            )
-
+                .sort_values(
+                    "Tourism_Density_Suitability",
+                    ascending=False
+                ).copy())
+        candidate_states = (recommended_states.head(8).copy())
     else:
-
         candidate_states = state_df[
             state_df["state_std"]
             == user_state
-        ].copy()
-
-    if candidate_states.empty:
-
-        st.warning(
-            "No tourism-pressure information is available "
-            "for the selected state."
-        )
-
-        st.stop()
+            ].copy()
 
     # =========================================================
     # STATE PRESSURE MESSAGE
     # =========================================================
-
     if user_state != "Smart Recommendation":
-
         selected_state_ml = state_df[
             state_df["state_std"]
             == user_state
-        ]
-
+            ]
+        
         if not selected_state_ml.empty:
-
-            state_pressure = (
+            density_category = (
                 selected_state_ml[
-                    "Pressure_Category"
-                ].iloc[0]
+                    "Tourism_Density_Category"
+                    ].iloc[0]
             )
-
-            if (
-                state_pressure
-                == "Lower Tourism Pressure"
-            ):
-
+            actual_density = (
+                selected_state_ml[
+                    "Tourism_Density"
+                    ].iloc[0]
+            )
+            density_score = (
+                selected_state_ml[
+                    "Tourism_Density_Suitability"
+                    ].iloc[0]
+            )
+            if density_category == "Low":
                 st.success(
                     f"🟢 **{user_state} — "
-                    "Lower Overall Tourism Pressure**\n\n"
-                    "This state has relatively lower predicted "
-                    "tourism pressure compared with other states "
-                    "in the latest ML assessment."
-                )
-
-            elif (
-                state_pressure
-                == "Moderate Tourism Pressure"
-            ):
-
+                    "Low Tourist Density**\n\n"
+                    f"Actual tourist density: "
+                    f"{actual_density:,.2f}\n\n"
+                    "The state has relatively low tourist density based on the defined reference range.")     
+            
+            elif density_category == "Medium":
                 st.info(
                     f"🟡 **{user_state} — "
-                    "Moderate Overall Tourism Pressure**\n\n"
-                    "The planner will recommend destinations within "
-                    "this state based on your theme, popularity "
-                    "preference, and attraction rating."
+                    "Medium Tourist Density**\n\n"
+                    f"Actual tourist density: "
+                    f"{actual_density:,.2f}\n\n"
+                    "The state falls within the defined tourist density reference range."
                 )
-
             else:
-
                 st.warning(
                     f"🔴 **{user_state} — "
-                    "Higher Overall Tourism Pressure**\n\n"
-                    "Tourism pressure is relatively higher at the "
-                    "state level. The planner therefore focuses on "
-                    "relatively less digitally popular destinations "
-                    f"within {user_state}."
+                    "High Tourist Density**\n\n"
+                    f"Actual tourist density: "
+                    f"{actual_density:,.2f}\n\n"
+                    "The state has relatively high tourist density based on the defined reference range."
                 )
-
     else:
-
         st.info(
             "🤖 **Smart Recommendation Mode**\n\n"
-            "The planner first prioritizes states with relatively "
-            "lower tourism pressure, then matches destinations with "
+            "The planner ranks states using Tourist Density "
+            "Suitability, then matches destinations with "
             "your travel preferences."
         )
 
@@ -6422,9 +6748,9 @@ elif app_mode == "🔥SMART TRIP PLANNER":
         candidate_states[
             [
                 "state_std",
-                "Tourism_Pressure",
-                "Pressure_Category",
-                "Pressure_Suitability"
+                "Tourism_Density",
+                "Tourism_Density_Category",
+                "Tourism_Density_Suitability"
             ]
         ],
         on="state_std",
@@ -6553,7 +6879,7 @@ elif app_mode == "🔥SMART TRIP PLANNER":
     ] = (
         0.60
         * filtered_df[
-            "Pressure_Suitability"
+            "Tourism_Density_Suitability"
         ]
 
         + 0.30
@@ -6774,17 +7100,9 @@ elif app_mode == "🔥SMART TRIP PLANNER":
     )
 
     st.caption(
-        "Recommendations combine tourism-pressure suitability, "
+        "Recommendations combine tourism density suitability, "
         "destination popularity, your preferences, and visitor ratings."
     )
-
-    st.caption(
-        "💰 Budget is shown as an affordability reference using "
-        "the latest available state-level average tourism "
-        "expenditure per trip. It does not affect the Match Score "
-        "and does not represent the actual cost of an individual destination."
-    )
-
     # =========================================================
     # RECOMMENDATION CARDS
     # =========================================================
@@ -6853,8 +7171,8 @@ elif app_mode == "🔥SMART TRIP PLANNER":
                 )
 
                 st.write(
-                    f"🏙️ **State Pressure:** "
-                    f"{r['Pressure_Category']}"
+                    f"🏙️ **Tourist Density:** "
+                    f"{r['Tourism_Density_Category']}"
                 )
 
                 if (
@@ -6974,8 +7292,8 @@ elif app_mode == "🔥SMART TRIP PLANNER":
             📍 {r['city']}, {r['state_std']}<br>
             🎨 Theme: {r['Theme']}<br>
             ⭐ Rating: {rating_for_map:.1f}/5<br>
-            🏙️ State Pressure:
-            {r['Pressure_Category']}<br>
+            🏙️  Tourist Density:
+            {r['Tourism_Density_Category']}<br>
             🤖 Match Score:
             {r['Recommendation_Score']:.2f}
             """
@@ -7219,8 +7537,8 @@ elif app_mode == " WHAT-IF SCENARIO":
 
         x1_change = st.slider(
             "X1 • Interstate Transit Hub Density",
-            min_value=-100,
-            max_value=100,
+            min_value=-50,
+            max_value=50,
             value=0,
             step=5,
             format="%d%%"
@@ -7235,8 +7553,8 @@ elif app_mode == " WHAT-IF SCENARIO":
 
         x2_change = st.slider(
             "X2 • Top 5 Digital Polarization Index",
-            min_value=-100,
-            max_value=100,
+            min_value=-50,
+            max_value=50,
             value=0,
             step=5,
             format="%d%%"
@@ -7254,8 +7572,8 @@ elif app_mode == " WHAT-IF SCENARIO":
 
         x3_change = st.slider(
             "X3 • Yearly Average Score",
-            min_value=-100,
-            max_value=100,
+            min_value=-50,
+            max_value=50,
             value=0,
             step=5,
             format="%d%%"
@@ -7270,8 +7588,8 @@ elif app_mode == " WHAT-IF SCENARIO":
 
         x4_change = st.slider(
             "X4 • Accommodation Capacity Density",
-            min_value=-100,
-            max_value=100,
+            min_value=-50,
+            max_value=50,
             value=0,
             step=5,
             format="%d%%"
@@ -7774,13 +8092,13 @@ Malaysia
 </div>
 <div class="footer-col-contact">
 <strong>Phone:</strong> +601x-xxxxxxxx<br>
-<strong>Email:</strong> xxxx@gmail.com
+<strong>Email:</strong> 4sight@gmail.com
 </div>
 </div>
 </div>
 <div class="custom-footer-bottom">
 © 2026 MyDecouple AI Platform (UPM). All rights reserved. <br style="margin-bottom:4px;">
-<a href="#">Privacy Policy</a> | <a href="#">Sitemap</a> | <span>Last updated: 12 September 2026</span>
+<a href="#">Privacy Policy</a> | <a href="#">Sitemap</a> | <span>Last updated: 20 September 2026</span>
 </div>
 </div>"""
 

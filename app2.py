@@ -8,6 +8,7 @@ import plotly.graph_objects as go
 import base64
 import os
 import joblib
+import streamlit.components.v1 as components
 
 
 # ---------------------------------------------------------
@@ -1834,7 +1835,7 @@ if app_mode == "HOME":
             "Sabah Kundasang.jpeg",
             "port dickson.jpeg",
             "penang-hill.jpg",
-            "mosque.jpeg"
+            "mosque.jpg"
         ]
         slides_html = ""
         for i, img_path in enumerate(images):
@@ -1860,21 +1861,28 @@ if app_mode == "HOME":
         # DISPLAY SLIDESHOW
         # =================================================
         if slides_html:
-            st.markdown(
+            components.html(
                 f"""
+                <!DOCTYPE html>
+                <html>
+                <head>
                 <style>
+                body {{
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                }}
+
                 .tourism-slideshow {{
                     position: relative;
                     width: 100%;
-                    aspect-ratio: 16 / 10;
+                    height: 350px;
                     overflow: hidden;
                     border-radius: 18px;
-                    margin-top: 10px;
-                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
                 }}
+
                 .tourism-slide {{
                     position: absolute;
-                    inset: 0;
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
@@ -1915,12 +1923,18 @@ if app_mode == "HOME":
                     }}
                 }}
                 </style>
+                </head>
+                <body>
                 <div class="tourism-slideshow">
                     {slides_html}
                 </div>
+                </body>
+                </html>
                 """,
-                unsafe_allow_html=True
+                height=370,
+                scrolling=False
             )
+
     # =====================================================
     # 2. WHAT IS MYDECOUPLE AI?
     # =====================================================

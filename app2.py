@@ -1857,13 +1857,13 @@ if app_mode == "HOME":
         # ---------------------------------------------
         if encoded_images:
             slides_html = ""
-                for i, image_data in enumerate(encoded_images):
-                    slides_html += f"""
-                    <img
-                    class="tourism-slide slide-{i}"
-                    src="{image_data}"
-                    >
-                    """
+            for i, image_data in enumerate(encoded_images):
+                slides_html += f"""
+                <img
+                class="tourism-slide slide-{i}"
+                src="{image_data}"
+                >
+                """
                 st.markdown(
                 f"""
                 <style>

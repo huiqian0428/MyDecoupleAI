@@ -1713,10 +1713,6 @@ def load_poi_data():
 df_poi = load_poi_data()
 df_poi["state_std"]=(df_poi["state_std"].apply(standardize_state))
 
-def image_to_base64(path):
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
 # ---------------------------------------------------------
 # 3. Dynamic Logo Load & Sidebar
 # ---------------------------------------------------------
@@ -1831,54 +1827,42 @@ if app_mode == "HOME":
         )
     with col_stats:
         # =================================================
-        # LOAD LOCAL IMAGES
+        # TOURISM IMAGE SLIDESHOW
         # =================================================
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         images = [
-            os.path.join(BASE_DIR, "Melakajpeg"),
-            os.path.join(BASE_DIR, "Sabah Kundasang.jpeg"),
-            os.path.join(BASE_DIR, "port dickson.jpeg"),
-            os.path.join(BASE_DIR, "penang-hill.jpg"),
-            os.path.join(BASE_DIR, "mosque.jpeg")
+            "Melaka.jpeg",
+            "Sabah Kundasang.jpeg",
+            "port dickson.jpeg",
+            "penang-hill.jpg",
+            "mosque.jpeg"
         ]
-        encoded_images = []
-        for image in images:
-            try:
-                encoded = get_base64_image(image)
-                # Determine image type
-                if image.lower().endswith(".png"):
-                    mime_type = "image/png"
-                elif image.lower().endswith(".jpg"):
-                    mime_type = "image/jpeg"
-                elif image.lower().endswith(".jpeg"):
-                    mime_type = "image/jpeg"
+        slides_html = ""
+        for i, img_path in enumerate(images):
+            if os.path.exists(img_path):
+                with open(img_path, "rb") as f:
+                    img_base64 = base64.b64encode(f.read()).decode()
+                    ext = img_path.split(".")[-1].lower()
+                if ext in ["jpg", "jpeg"]:
+                    mime = "image/jpeg"
+                elif ext == "png":
+                    mime = "image/png"
                 else:
-                    mime_type = "image/jpeg"
-                encoded_images.append(
-                    f"data:{mime_type};base64,{encoded}"
-                )
-            except Exception as e:
-                st.warning(
-                    f"Unable to load image: {os.path.basename(image)}"
-                )
-        # =================================================
-        # AUTOMATIC SLIDESHOW
-        # =================================================
-        if encoded_images:
-            slides_html = ""
-            for i, image_data in enumerate(encoded_images):
+                    mime = "image/jpeg"
                 slides_html += f"""
                 <img
-                class="tourism-slide slide-{i}"
-                src="{image_data}"
+                    class="tourism-slide slide-{i}"
+                    src="data:{mime};base64,{img_base64}"
                 >
-                """
+                """ 
+            else:
+                st.warning(f"Image not found: {img_path}")
+        # =================================================
+        # DISPLAY SLIDESHOW
+        # =================================================
+        if slides_html:
             st.markdown(
                 f"""
                 <style>
-                /* =========================================
-                TOURISM IMAGE SLIDESHOW
-                ========================================= */
                 .tourism-slideshow {{
                     position: relative;
                     width: 100%;
@@ -1887,7 +1871,7 @@ if app_mode == "HOME":
                     border-radius: 18px;
                     margin-top: 10px;
                     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-                 }}
+                }}
                 .tourism-slide {{
                     position: absolute;
                     inset: 0;
@@ -1898,9 +1882,6 @@ if app_mode == "HOME":
                     opacity: 0;
                     animation: tourismFade 15s infinite;
                 }}
-                /* =========================================
-                   SLIDE TIMING
-                   ========================================= */
                 .slide-0 {{
                     animation-delay: 0s;
                 }}
@@ -1915,10 +1896,7 @@ if app_mode == "HOME":
                 }}
                 .slide-4 {{
                     animation-delay: 12s;
-                 }}
-                /* =========================================
-                   FADE ANIMATION
-                   ========================================= */
+                }}
                 @keyframes tourismFade {{
                     0% {{
                         opacity: 0;
@@ -1930,19 +1908,19 @@ if app_mode == "HOME":
                         opacity: 1;
                     }}
                     26% {{
-                         opacity: 0;
+                        opacity: 0;
                     }}
                     100% {{
                         opacity: 0;
                     }}
-                 }}
-                 </style>
+                }}
+                </style>
                 <div class="tourism-slideshow">
                     {slides_html}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                    )
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
     # =====================================================
     # 2. WHAT IS MYDECOUPLE AI?
     # =====================================================

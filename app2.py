@@ -1804,10 +1804,10 @@ if app_mode == "HOME":
     """, unsafe_allow_html=True)
 
     st.divider()
-
     # =====================================================
     # 1. ABOUT MALAYSIA TOURISM
     # =====================================================
+
     col_text, col_stats = st.columns([2, 1])
     with col_text:
         st.markdown(
@@ -1823,7 +1823,6 @@ if app_mode == "HOME":
             <p class="section-text">
             Malaysia is a multicultural nation that blends the traditions and cultures of Malay, Chinese, Indian, and various indigenous communities. Its rich cultural heritage, tropical rainforests, islands and beaches, and vibrant cities offer visitors a diverse range of travel experiences.
             </p>
-
             <p class="section-text">
             Malaysia is also a culinary paradise, bringing together the unique flavors and cuisines of its various ethnic groups. Beyond exploring its multicultural landscape and natural scenery, visitors can venture into Sabah and Sarawak to experience the cultures of indigenous peoples such as the Kadazan-Dusun and the Iban.
             </p>
@@ -1831,24 +1830,40 @@ if app_mode == "HOME":
             unsafe_allow_html=True
         )
     with col_stats:
-        # ---------------------------------------------
-        # Load local images
-        # ---------------------------------------------
+        # =================================================
+        # LOAD LOCAL IMAGES
+        # =================================================
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        
         images = [
-        os.path.join(BASE_DIR, "Melaka.jpeg"),
-        os.path.join(BASE_DIR, "Sabah Kundasang.jpeg"),
-        os.path.join(BASE_DIR, "port dickson.jpeg"),
-        os.path.join(BASE_DIR, "penang-hill.jpg"),
-        os.path.join(BASE_DIR, "mosque.jpeg")
+            os.path.join(BASE_DIR, "Melakajpeg"),
+            os.path.join(BASE_DIR, "Sabah Kundasang.jpeg"),
+            os.path.join(BASE_DIR, "port dickson.jpeg"),
+            os.path.join(BASE_DIR, "penang-hill.jpg"),
+            os.path.join(BASE_DIR, "mosque.jpeg")
         ]
+        encoded_images = []
         for image in images:
             try:
                 encoded = get_base64_image(image)
-        # ---------------------------------------------
-        # Automatic slideshow
-        # ---------------------------------------------
+                # Determine image type
+                if image.lower().endswith(".png"):
+                    mime_type = "image/png"
+                elif image.lower().endswith(".jpg"):
+                    mime_type = "image/jpeg"
+                elif image.lower().endswith(".jpeg"):
+                    mime_type = "image/jpeg"
+                else:
+                    mime_type = "image/jpeg"
+                encoded_images.append(
+                    f"data:{mime_type};base64,{encoded}"
+                )
+            except Exception as e:
+                st.warning(
+                    f"Unable to load image: {os.path.basename(image)}"
+                )
+        # =================================================
+        # AUTOMATIC SLIDESHOW
+        # =================================================
         if encoded_images:
             slides_html = ""
             for i, image_data in enumerate(encoded_images):
@@ -1858,67 +1873,76 @@ if app_mode == "HOME":
                 src="{image_data}"
                 >
                 """
-                st.markdown(
+            st.markdown(
                 f"""
                 <style>
+                /* =========================================
+                TOURISM IMAGE SLIDESHOW
+                ========================================= */
                 .tourism-slideshow {{
-                position: relative;
-                width: 100%;
-                aspect-ratio: 16 / 10;
-                overflow: hidden;
-                border-radius: 18px;
-                margin-top: 10px;
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-                }}
+                    position: relative;
+                    width: 100%;
+                    aspect-ratio: 16 / 10;
+                    overflow: hidden;
+                    border-radius: 18px;
+                    margin-top: 10px;
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+                 }}
                 .tourism-slide {{
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                border-radius: 18px;
-                opacity: 0;
-                animation: tourismFade 15s infinite;
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 18px;
+                    opacity: 0;
+                    animation: tourismFade 15s infinite;
                 }}
+                /* =========================================
+                   SLIDE TIMING
+                   ========================================= */
                 .slide-0 {{
-                animation-delay: 0s;
+                    animation-delay: 0s;
                 }}
                 .slide-1 {{
-                animation-delay: 3s;
+                    animation-delay: 3s;
                 }}
                 .slide-2 {{
-                animation-delay: 6s;
+                    animation-delay: 6s;
                 }}
                 .slide-3 {{
-                animation-delay: 9s;
+                    animation-delay: 9s;
                 }}
                 .slide-4 {{
-                animation-delay: 12s;
-                }}
+                    animation-delay: 12s;
+                 }}
+                /* =========================================
+                   FADE ANIMATION
+                   ========================================= */
                 @keyframes tourismFade {{
-                0% {{
-                opacity: 0;
-                }}
-                6% {{
-                opacity: 1;
-                }}
-                20% {{
-                opacity: 1;
-                }}
-                26% {{
-                opacity: 0;
-                }}
-                100% {{
-                opacity: 0;
-                }}
-                }}
-                </style>
+                    0% {{
+                        opacity: 0;
+                    }}
+                    6% {{
+                        opacity: 1;
+                    }}
+                    20% {{
+                        opacity: 1;
+                    }}
+                    26% {{
+                         opacity: 0;
+                    }}
+                    100% {{
+                        opacity: 0;
+                    }}
+                 }}
+                 </style>
                 <div class="tourism-slideshow">
-                {slides_html}
-                </div>
-                """,
-                unsafe_allow_html=True
-                )
+                    {slides_html}
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                    )
     # =====================================================
     # 2. WHAT IS MYDECOUPLE AI?
     # =====================================================

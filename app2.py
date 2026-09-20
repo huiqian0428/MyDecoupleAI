@@ -1834,28 +1834,18 @@ if app_mode == "HOME":
         # ---------------------------------------------
         # Load local images
         # ---------------------------------------------
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        
         images = [
-            "Melaka.jpeg",
-            "Sabah Kundasang.jpeg",
-            "port dickson.jpeg",
-            "penang-hill.jpg",
-            "mosque.jpeg"
+        os.path.join(BASE_DIR, "Melaka.jpeg"),
+        os.path.join(BASE_DIR, "Sabah Kundasang.jpeg"),
+        os.path.join(BASE_DIR, "port dickson.jpeg"),
+        os.path.join(BASE_DIR, "penang-hill.jpg"),
+        os.path.join(BASE_DIR, "mosque.jpeg")
         ]
-        encoded_images = []
         for image in images:
             try:
                 encoded = get_base64_image(image)
-                if image.lower().endswith(".png"):
-                    mime_type = "image/png"
-                elif image.lower().endswith(".jpg") or image.lower().endswith(".jpeg"):
-                    mime_type = "image/jpeg"
-                else:
-                    mime_type = "image/jpeg"
-                    encoded_images.append(
-                    f"data:{mime_type};base64,{encoded}"
-                    )
-            except Exception as e:
-                st.warning(f"Unable to load image: {image}")
         # ---------------------------------------------
         # Automatic slideshow
         # ---------------------------------------------

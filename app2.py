@@ -67,102 +67,109 @@ body {
     color: #222222;
 }
 
-
-/* =========================================================
-   2. SIDEBAR — FIXED LIGHT
-   ========================================================= */
-
-section[data-testid="stSidebar"] {
-    background-color: #ffffff !important;
-    color: #333333 !important;
-}
-
-section[data-testid="stSidebar"] > div {
-    background-color: #ffffff !important;
-}
-
-/* Sidebar text */
-section[data-testid="stSidebar"] p,
-section[data-testid="stSidebar"] label,
-section[data-testid="stSidebar"] span {
-    color: #333333;
-}
-
-/* Sidebar navigation buttons */
-section[data-testid="stSidebar"] .stButton > button {
-    width: 100%;
-    text-align: left;
-
-    border: none !important;
-    background-color: transparent !important;
-
-    padding: 12px 15px;
-    border-radius: 8px;
-
-    font-size: 15px;
-    font-weight: 500;
-
-    color: #333333 !important;
-
-    transition: all 0.2s ease;
-}
-
-section[data-testid="stSidebar"] .stButton > button:hover {
-    background-color: #EAF2F8 !important;
-    color: #1F77B4 !important;
-    border: none !important;
-}
-
-
-/* =========================================================
-   3. SIDEBAR BRANDING
-   ========================================================= */
-
-.sidebar-brand {
-    display: flex;
+/* ===================================================== 
+   2. SIDEBAR CONTAINER 
+   ===================================================== */ 
+[data-testid="stSidebar"] { 
+    background: linear-gradient( 180deg, #f8fbff 0%, #ffffff 55%, #f5f9fc 100% ); 
+    border-right: 1px solid #e6edf3; } 
+[data-testid="stSidebar"] > div:first-child { 
+    padding-top: 1.5rem; 
+    padding-left: 1.1rem; 
+    padding-right: 1.1rem; } 
+/* ===================================================== 
+   3. BRAND AREA 
+   ===================================================== */ 
+.sidebar-brand { 
+    display: flex; 
     align-items: center;
     gap: 12px;
-    padding: 8px 4px 18px 4px;
-}
-
-.sidebar-logo {
+    padding: 10px 6px 18px 6px; } 
+.sidebar-logo { 
     width: 52px;
-    height: 52px;
-
-    object-fit: contain;
-    border-radius: 50%;
-
-    flex-shrink: 0;
-
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-
-    border: 2px solid #E0E0E0;
-}
-
-.sidebar-brand-text {
-    flex: 1;
-    min-width: 0;
-}
-
-.sidebar-title {
-    font-size: 18px;
-    font-weight: 700;
-
-    color: #1F4E79 !important;
-
-    line-height: 1.2;
-    white-space: nowrap;
-}
-
-.sidebar-subtitle {
-    font-size: 10px;
-
-    color: #777777 !important;
-
-    line-height: 1.3;
-    margin-top: 4px;
-}
-
+    height: 52px; 
+    object-fit: contain; 
+    border-radius: 12px; 
+    background: white; 
+    padding: 3px; 
+    box-shadow: 0 4px 14px rgba(31, 119, 180, 0.12); 
+    flex-shrink: 0; } 
+.sidebar-brand-text { 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; } 
+.sidebar-title { 
+    font-size: 1.18rem; 
+    font-weight: 750;
+    color: #17324d; 
+    line-height: 1.15; 
+    letter-spacing: -0.3px; } 
+.sidebar-subtitle { 
+    font-size: 0.68rem; 
+    color: #718096; 
+    line-height: 1.35; 
+    margin-top: 4px; } 
+/* =====================================================
+   SECTION LABEL
+   ===================================================== */ 
+.sidebar-section-label { 
+    font-size: 0.65rem; 
+    font-weight: 700; 
+    color: #8a9aaa; 
+    letter-spacing: 1.2px; 
+    text-transform: uppercase; 
+    padding: 5px 6px 9px 6px; } 
+/* ===================================================== 
+   NAVIGATION BUTTONS 
+   ===================================================== */ 
+[data-testid="stSidebar"] .stButton > button {
+    width: 100%; 
+    border: none; 
+    border-radius: 11px; 
+    background: transparent; 
+    color: #536779; 
+    font-size: 0.86rem; 
+    font-weight: 600; 
+    text-align: left;
+    padding: 0.68rem 0.85rem;
+    margin: 2px 0;
+    transition: all 0.2s ease; 
+    box-shadow: none; } 
+[data-testid="stSidebar"] .stButton > button:hover { 
+    background: #edf5fb; 
+    color: #1f77b4;
+    transform: translateX(2px); } 
+[data-testid="stSidebar"] .stButton > button:focus { 
+    box-shadow: none; 
+    outline: none; } 
+/* ===================================================== 
+   DATA SCOPE CARD 
+   ===================================================== */ 
+.sidebar-scope {
+    margin-top: 14px;
+    padding: 13px 14px; 
+    border-radius: 13px;
+    background: rgba(31, 119, 180, 0.06); 
+    border: 1px solid rgba(31, 119, 180, 0.10); } 
+.sidebar-scope-title { 
+    font-size: 0.70rem; 
+    font-weight: 700; 
+    color: #1f77b4; 
+    margin-bottom: 5px; 
+    letter-spacing: 0.2px; }
+.sidebar-scope-text { 
+    font-size: 0.68rem; 
+    line-height: 1.5; 
+    color: #657789; margin: 0; } 
+/* ===================================================== 
+   FOOTER 
+   ===================================================== */ 
+.sidebar-footer { 
+    text-align: center; 
+    color: #a0acb8;
+    font-size: 0.60rem;
+    margin-top: 18px; 
+    padding-bottom: 5px; }
 
 /* =========================================================
    4. SIDEBAR INPUTS / SELECTBOXES

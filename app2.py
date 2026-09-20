@@ -1713,6 +1713,10 @@ def load_poi_data():
 df_poi = load_poi_data()
 df_poi["state_std"]=(df_poi["state_std"].apply(standardize_state))
 
+def image_to_base64(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
 # ---------------------------------------------------------
 # 3. Dynamic Logo Load & Sidebar
 # ---------------------------------------------------------

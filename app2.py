@@ -2161,7 +2161,7 @@ elif app_mode == "OVERVIEW":
     # POWER BI DASHBOARD
     # =========================================================
     st.markdown(
-        '<div class="section-heading" style='text-align:center;'>Interactive Tourism Dashboard</div>',
+        '<div class="section-heading" ；style='text-align:center;'>Interactive Tourism Dashboard</div>',
         unsafe_allow_html=True
     )
     st.markdown(

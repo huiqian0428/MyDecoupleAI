@@ -7410,24 +7410,6 @@ elif app_mode == "🔥SMART TRIP PLANNER":
             "for the recommended attractions."
         )
 
-    # =========================================================
-    # SOLUTION BOX
-    # =========================================================
-
-    st.markdown(
-        """
-        <div class="solution-box">
-        <h4>🌱 From Accessibility to Opportunity</h4>
-        <p>
-        MyDecouple AI helps travellers discover alternative
-        destinations that match their preferences while supporting
-        a more balanced distribution of tourism activity across
-        Malaysia.
-        </p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 # -----------------------------------------------------------------------------
 # Part 4: B2G Government Policy What-If Simulator
 # -----------------------------------------------------------------------------
@@ -7689,8 +7671,8 @@ elif app_mode == " WHAT-IF SCENARIO":
 
     x5_change = st.slider(
         "X5 • GDP per Capita",
-        min_value=-100,
-        max_value=100,
+        min_value=-50,
+        max_value=50,
         value=0,
         step=5,
         format="%d%%"
@@ -8178,14 +8160,14 @@ Universiti Putra Malaysia (UPM)<br>
 Malaysia
 </div>
 <div class="footer-col-contact">
-<strong>Phone:</strong> +601x-xxxxxxxx<br>
+<strong>Phone:</strong> +6011-2345678<br>
 <strong>Email:</strong> 4sight@gmail.com
 </div>
 </div>
 </div>
 <div class="custom-footer-bottom">
 © 2026 MyDecouple AI Platform (UPM). All rights reserved. <br style="margin-bottom:4px;">
-<a href="#">Privacy Policy</a> | <a href="#">Sitemap</a> | <span>Last updated: 20 September 2026</span>
+<a href="#">Privacy Policy</a> | <a href="#">Sitemap</a> | <span>Last updated: 21 September 2026</span>
 </div>
 </div>"""
 

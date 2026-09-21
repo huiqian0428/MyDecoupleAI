@@ -2161,15 +2161,7 @@ elif app_mode == "OVERVIEW":
     # POWER BI DASHBOARD
     # =========================================================
     st.markdown(
-        '<div class="section-heading">Interactive Tourism Dashboard</div>',
-        unsafe_allow_html=True
-    )
-    st.markdown(
-        """
-        <p style='text-align:center;font-size:15px;'>
-        Explore additional tourism insights through an interactive Power BI dashboard.
-        </p>
-        """,
+        '<div class="section-heading"；style='text-align:center'>Malaysia Domestic Tourism Dashboard</div>',
         unsafe_allow_html=True
     )
     

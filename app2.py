@@ -3920,23 +3920,19 @@ elif app_mode == "OVERVIEW":
                     values=transport_value,
                     hole=0.58
                 )
-                fig.update_traces(
-                    textposition="inside",
-                    textinfo="percent",
-                    hovertemplate=(
-                        "<b>%{label}</b><br>"
-                        "Share: %{value:.2f}%"
-                        "<br><br>"
+                fig.update_traces( 
+                    textposition="inside", 
+                    textinfo="percent", 
+                    hovertemplate=( 
+                        "<b>%{label}</b><br>" 
+                        "Share: %{value:.2f}%" 
+                        "<br><br>" 
                         "Click to view breakdown"
-                        "<extra></extra>")
-                    ),
-                    marker=dict(
-                        line=dict(
+                        "<extra></extra>" ), 
+                    marker=dict( 
+                        line=dict( 
                             color="white",
-                            width=2
-                        )
-                    )
-                )
+                            width=2 ) ) )
                 fig.update_layout(
                     height=380,
                     paper_bgcolor="rgba(0,0,0,0)",

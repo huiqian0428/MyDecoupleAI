@@ -3709,12 +3709,13 @@ elif app_mode == "OVERVIEW":
     # =====================================================
     # SECTION 5: TRANSPORTATION
     # =====================================================
+
     st.markdown("""
     <div class="section-title">03 — Domestic Tourism Mobility</div>
     <div class="section-description">
         Explore how domestic visitors and excursionists travel,
-        including the main transportation modes and detailed
-        land transportation choices.
+        including the main modes of transport and land
+        transportation choices.
     </div>
     """, unsafe_allow_html=True)
 
@@ -3722,11 +3723,13 @@ elif app_mode == "OVERVIEW":
     # -----------------------------------------------------
     # 5.1 CHECK DATA
     # -----------------------------------------------------
+
     if not transportation.empty:
 
         # -------------------------------------------------
-        # 5.2 CLEAN DATA
+        # CLEAN DATA
         # -------------------------------------------------
+
         transport_data = transportation.copy()
 
         # Clean year
@@ -3764,8 +3767,9 @@ elif app_mode == "OVERVIEW":
 
 
         # -------------------------------------------------
-        # 5.3 AVAILABLE YEARS
+        # 5.2 AVAILABLE YEARS
         # -------------------------------------------------
+
         transport_years = sorted(
             transport_data[transport_year]
             .dropna()
@@ -3776,8 +3780,9 @@ elif app_mode == "OVERVIEW":
 
 
         # -------------------------------------------------
-        # 5.4 AVAILABLE STATES
+        # 5.3 AVAILABLE STATES
         # -------------------------------------------------
+
         transport_states = sorted(
             transport_data[transport_state]
             .dropna()
@@ -3787,8 +3792,9 @@ elif app_mode == "OVERVIEW":
 
 
         # -------------------------------------------------
-        # 5.5 FILTERS
+        # 5.4 INDEPENDENT FILTERS
         # -------------------------------------------------
+
         transport_filter_col1, transport_filter_col2 = st.columns(
             2,
             gap="medium"
@@ -3814,8 +3820,9 @@ elif app_mode == "OVERVIEW":
 
 
         # -------------------------------------------------
-        # 5.6 FILTER DATA
+        # 5.5 FILTER DATA
         # -------------------------------------------------
+
         transport_df = transport_data[
             transport_data[transport_year]
             == transport_selected_year
@@ -3828,8 +3835,9 @@ elif app_mode == "OVERVIEW":
 
 
         # -------------------------------------------------
-        # 5.7 CURRENT VIEW
+        # 5.6 CURRENT VIEW
         # -------------------------------------------------
+
         st.markdown(
             f"""
             <div style="
@@ -3843,14 +3851,12 @@ elif app_mode == "OVERVIEW":
             color: #475569;
             ">
             <b>Current View</b>
-
             <span style="margin-left: 18px;">
             Year:
             <b style="color:#12355B;">
             {transport_selected_year}
             </b>
             </span>
-
             <span style="margin-left: 18px;">
             State:
             <b style="color:#12355B;">
@@ -3864,8 +3870,9 @@ elif app_mode == "OVERVIEW":
 
 
         # -------------------------------------------------
-        # 5.8 CHECK FILTERED DATA
+        # 5.7 CHECK FILTERED DATA
         # -------------------------------------------------
+
         if transport_df.empty:
 
             st.info(
@@ -3876,9 +3883,10 @@ elif app_mode == "OVERVIEW":
 
         else:
 
-            # =================================================
-            # 5.9 SEPARATE VISITOR TYPES
-            # =================================================
+            # -------------------------------------------------
+            # 5.8 SEPARATE VISITOR TYPES
+            # -------------------------------------------------
+
             visitors_transport = transport_df[
                 transport_df[transport_type]
                 .str.lower()
@@ -3892,14 +3900,20 @@ elif app_mode == "OVERVIEW":
             ].copy()
 
 
-            # =================================================
-            # 5.10 MAIN TRANSPORTATION FUNCTION
-            # =================================================
-            def build_main_transport_chart(df):
+            # -------------------------------------------------
+            # 5.9 MAIN TRANSPORTATION FUNCTION
+            # -------------------------------------------------
+
+            def build_main_transport_chart(
+                df,
+                title,
+                chart_key
+            ):
 
                 if df.empty:
                     return None
 
+                # Only use main transport modes
                 main_modes = [
                     "Air",
                     "Water",
@@ -3914,9 +3928,7 @@ elif app_mode == "OVERVIEW":
                 if chart_df.empty:
                     return None
 
-                # ---------------------------------------------
-                # REMOVE DUPLICATES / AGGREGATE
-                # ---------------------------------------------
+                # Remove duplicates if any
                 chart_df = (
                     chart_df
                     .groupby(
@@ -3926,10 +3938,10 @@ elif app_mode == "OVERVIEW":
                     .sum()
                 )
 
-                # ---------------------------------------------
-                # KEEP DESIRED ORDER
-                # ---------------------------------------------
-                chart_df[transport_category] = pd.Categorical(
+                # Keep desired order
+                chart_df[
+                    transport_category
+                ] = pd.Categorical(
                     chart_df[transport_category],
                     categories=main_modes,
                     ordered=True
@@ -3939,33 +3951,23 @@ elif app_mode == "OVERVIEW":
                     transport_category
                 )
 
-
-                # ---------------------------------------------
-                # CREATE DONUT CHART
-                # ---------------------------------------------
+                # Create donut
                 fig = px.pie(
                     chart_df,
                     names=transport_category,
                     values=transport_value,
-                    hole=0.58,
-                    custom_data=[
-                        transport_category
-                    ]
+                    hole=0.58
                 )
 
-
-                # ---------------------------------------------
-                # DONUT STYLE
-                # ---------------------------------------------
                 fig.update_traces(
+
                     textposition="inside",
+
                     textinfo="percent",
 
                     hovertemplate=(
                         "<b>%{label}</b><br>"
                         "Share: %{value:.2f}%"
-                        "<br><br>"
-                        "Click <b>Land</b> to view breakdown"
                         "<extra></extra>"
                     ),
 
@@ -3977,14 +3979,12 @@ elif app_mode == "OVERVIEW":
                     )
                 )
 
-
-                # ---------------------------------------------
-                # DONUT LAYOUT
-                # ---------------------------------------------
                 fig.update_layout(
+
                     height=380,
 
                     paper_bgcolor="rgba(0,0,0,0)",
+
                     plot_bgcolor="rgba(0,0,0,0)",
 
                     font=dict(
@@ -4014,11 +4014,8 @@ elif app_mode == "OVERVIEW":
                     )
                 )
 
-
-                # ---------------------------------------------
-                # CENTER LABEL
-                # ---------------------------------------------
                 fig.add_annotation(
+
                     x=0.5,
                     y=0.5,
 
@@ -4031,6 +4028,7 @@ elif app_mode == "OVERVIEW":
                     ),
 
                     showarrow=False,
+
                     align="center",
 
                     font=dict(
@@ -4042,13 +4040,17 @@ elif app_mode == "OVERVIEW":
                 return fig
 
 
-            # =================================================
-            # 5.11 LAND TRANSPORTATION FUNCTION
-            # =================================================
-            def build_land_transport_chart(df):
+            # -------------------------------------------------
+            # 5.10 LAND TRANSPORTATION FUNCTION
+            # -------------------------------------------------
+
+            def build_land_transport_chart(
+                df,
+                title
+            ):
 
                 if df.empty:
-                    return None
+                    return None, None
 
                 land_modes = [
                     "Private Vehicles",
@@ -4063,12 +4065,8 @@ elif app_mode == "OVERVIEW":
                 ].copy()
 
                 if chart_df.empty:
-                    return None
+                    return None, None
 
-
-                # ---------------------------------------------
-                # REMOVE DUPLICATES / AGGREGATE
-                # ---------------------------------------------
                 chart_df = (
                     chart_df
                     .groupby(
@@ -4078,11 +4076,10 @@ elif app_mode == "OVERVIEW":
                     .sum()
                 )
 
-
-                # ---------------------------------------------
-                # KEEP DESIRED ORDER
-                # ---------------------------------------------
-                chart_df[transport_category] = pd.Categorical(
+                # Keep desired order
+                chart_df[
+                    transport_category
+                ] = pd.Categorical(
                     chart_df[transport_category],
                     categories=land_modes,
                     ordered=True
@@ -4092,10 +4089,7 @@ elif app_mode == "OVERVIEW":
                     transport_category
                 )
 
-
-                # ---------------------------------------------
-                # CREATE BAR CHART
-                # ---------------------------------------------
+                # Create horizontal bar
                 fig = px.bar(
                     chart_df,
                     x=transport_value,
@@ -4104,14 +4098,9 @@ elif app_mode == "OVERVIEW":
                     text=transport_value
                 )
 
-
-                # ---------------------------------------------
-                # BAR STYLE
-                # ---------------------------------------------
                 fig.update_traces(
                     texttemplate="%{text:.1f}%",
                     textposition="outside",
-
                     hovertemplate=(
                         "<b>%{y}</b><br>"
                         "Share: %{x:.2f}%"
@@ -4119,24 +4108,12 @@ elif app_mode == "OVERVIEW":
                     )
                 )
 
-
-                # ---------------------------------------------
-                # BAR LAYOUT
-                # ---------------------------------------------
-                max_value = chart_df[
-                    transport_value
-                ].max()
-
-                x_max = max(
-                    100,
-                    max_value * 1.15
-                )
-
-
                 fig.update_layout(
-                    height=380,
+
+                    height=300,
 
                     paper_bgcolor="rgba(0,0,0,0)",
+
                     plot_bgcolor="rgba(0,0,0,0)",
 
                     font=dict(
@@ -4156,7 +4133,12 @@ elif app_mode == "OVERVIEW":
                         title="Percentage Share (%)",
                         range=[
                             0,
-                            x_max
+                            max(
+                                100,
+                                chart_df[
+                                    transport_value
+                                ].max() * 1.15
+                            )
                         ],
                         showgrid=True,
                         gridcolor="#E2E8F0",
@@ -4172,102 +4154,47 @@ elif app_mode == "OVERVIEW":
                     showlegend=False
                 )
 
-                return fig
+                return fig, chart_df
 
 
-            # =================================================
-            # 5.12 BUILD ALL CHARTS
-            # =================================================
+            # -------------------------------------------------
+            # 5.11 BUILD MAIN MODE CHARTS
+            # -------------------------------------------------
+
             visitors_main_fig = build_main_transport_chart(
-                visitors_transport
+                visitors_transport,
+                "Visitors",
+                "transport_visitors_main"
             )
 
             excursionist_main_fig = build_main_transport_chart(
-                excursionist_transport
-            )
-
-            visitors_land_fig = build_land_transport_chart(
-                visitors_transport
-            )
-
-            excursionist_land_fig = build_land_transport_chart(
-                excursionist_transport
+                excursionist_transport,
+                "Excursionist",
+                "transport_excursionist_main"
             )
 
 
-            # =================================================
-            # 5.13 SECTION TITLE
-            # =================================================
+            # -------------------------------------------------
+            # 5.12 MAIN TRANSPORTATION TITLE
+            # -------------------------------------------------
+
             st.markdown("""
             <div style="
                 margin-top: 8px;
-                margin-bottom: 6px;
+                margin-bottom: 12px;
                 font-size: 18px;
                 font-weight: 700;
                 color: #12355B;
             ">
                 Main Transportation Mode
             </div>
-
-            <div style="
-                margin-bottom: 15px;
-                font-size: 13px;
-                color: #64748B;
-            ">
-                Click <b>Land</b> on either chart to switch
-                to the detailed land transportation breakdown.
-            </div>
             """, unsafe_allow_html=True)
 
 
-            # =================================================
-            # 5.14 SESSION STATE
-            # =================================================
-            if "transport_visitors_land" not in st.session_state:
+            # -------------------------------------------------
+            # 5.13 MAIN TRANSPORTATION CARDS
+            # -------------------------------------------------
 
-                st.session_state.transport_visitors_land = False
-
-
-            if "transport_excursionist_land" not in st.session_state:
-
-                st.session_state.transport_excursionist_land = False
-
-
-            # =================================================
-            # 5.15 RESET DRILL-DOWN WHEN FILTER CHANGES
-            # =================================================
-            current_transport_filter = (
-                transport_selected_year,
-                transport_selected_state
-            )
-
-
-            if (
-                "transport_previous_filter"
-                not in st.session_state
-            ):
-
-                st.session_state.transport_previous_filter = (
-                    current_transport_filter
-                )
-
-            elif (
-                st.session_state.transport_previous_filter
-                != current_transport_filter
-            ):
-
-                st.session_state.transport_visitors_land = False
-
-                st.session_state.transport_excursionist_land = False
-
-                st.session_state.transport_previous_filter = (
-                    current_transport_filter
-                )
-
-
-            # =================================================
-            # 5.16 TWO INDEPENDENT CARDS
-            # =================================================
             main_col1, main_col2 = st.columns(
                 2,
                 gap="large"
@@ -4275,210 +4202,42 @@ elif app_mode == "OVERVIEW":
 
 
             # =================================================
-            # 5.17 VISITORS
+            # VISITORS MAIN MODE
             # =================================================
+
             with main_col1:
 
                 st.markdown(
                     """
                     <div style="
-                    background:#FFFFFF;
-                    border:1px solid #E2E8F0;
-                    border-radius:12px;
-                    padding:10px 12px;
-                    box-shadow:
-                    0 2px 8px rgba(15,23,42,0.05);
+                        background:#FFFFFF;
+                        border:1px solid #E2E8F0;
+                        border-radius:12px;
+                        padding:10px 12px;
+                        box-shadow:
+                            0 2px 8px rgba(15,23,42,0.05);
                     ">
                     """,
                     unsafe_allow_html=True
                 )
 
+                if visitors_main_fig is not None:
 
-                # -------------------------------------------------
-                # TITLE
-                # -------------------------------------------------
-                if st.session_state.transport_visitors_land:
-
-                    st.markdown(
-                        """
-                        <div style="
-                        font-size:15px;
-                        font-weight:600;
-                        color:#12355B;
-                        margin-bottom:2px;
-                        ">
-                        Land Transportation Breakdown — Visitors
-                        </div>
-                        """,
-                        unsafe_allow_html=True
+                    st.plotly_chart(
+                        visitors_main_fig,
+                        width="stretch",
+                        key="transport_visitors_main_chart",
+                        on_select="ignore",
+                        config={
+                            "displayModeBar": False
+                        }
                     )
 
                 else:
 
-                    st.markdown(
-                        """
-                        <div style="
-                        font-size:15px;
-                        font-weight:600;
-                        color:#12355B;
-                        margin-bottom:2px;
-                        ">
-                        Visitors
-                        </div>
-                        """,
-                        unsafe_allow_html=True
+                    st.info(
+                        "No visitor transportation data available."
                     )
-
-
-                # -------------------------------------------------
-                # LAND VIEW
-                # -------------------------------------------------
-                if st.session_state.transport_visitors_land:
-
-                    if visitors_land_fig is not None:
-
-                        visitors_back = st.button(
-                            "← Back to Main Transportation",
-                            key="visitors_transport_back"
-                        )
-
-
-                        if visitors_back:
-
-                            st.session_state.transport_visitors_land = False
-
-                            st.rerun()
-
-
-                        st.plotly_chart(
-                            visitors_land_fig,
-
-                            width="stretch",
-
-                            key="transport_visitors_land_chart",
-
-                            on_select="ignore",
-
-                            config={
-                                "displayModeBar": False
-                            }
-                        )
-
-                    else:
-
-                        st.info(
-                            "No detailed land transportation "
-                            "data available for visitors."
-                        )
-
-
-                # -------------------------------------------------
-                # MAIN VIEW
-                # -------------------------------------------------
-                else:
-
-                    if visitors_main_fig is not None:
-
-                        visitors_selection = st.plotly_chart(
-                            visitors_main_fig,
-                            width="stretch",
-                            key="transport_visitors_main_chart",
-                            on_select="rerun",
-                            selection_mode=["points"],
-                            config={
-                                "displayModeBar": False
-                            }
-                        )
-                        if visitors_selection.selection.points: 
-                            selected_point = visitors_selection.selection.points[0] 
-                            st.write("DEBUG:", selected_point) 
-                            clicked_category = selected_point.get("label") 
-                            if str(clicked_category).strip().lower() == "land":
-                                st.session_state.transport_visitors_land = True 
-                                st.rerun() 
-
-
-                        # -----------------------------------------
-                        # CHECK CLICK EVENT
-                        # -----------------------------------------
-                        if (
-                            visitors_selection
-                            and visitors_selection.selection
-                            and visitors_selection.selection.points
-                        ):
-
-                            selected_point = (
-                                visitors_selection
-                                .selection
-                                .points[0]
-                            )
-
-
-                            clicked_category = None
-
-
-                            # -------------------------------------
-                            # READ CUSTOM DATA
-                            # -------------------------------------
-                            if selected_point.get(
-                                "customdata"
-                            ):
-
-                                custom_data = (
-                                    selected_point.get(
-                                        "customdata"
-                                    )
-                                )
-
-
-                                if isinstance(
-                                    custom_data,
-                                    list
-                                ):
-
-                                    clicked_category = (
-                                        custom_data[0]
-                                    )
-
-                                else:
-
-                                    clicked_category = (
-                                        custom_data
-                                    )
-
-
-                            # -------------------------------------
-                            # FALLBACK TO LABEL
-                            # -------------------------------------
-                            if clicked_category is None:
-
-                                clicked_category = (
-                                    selected_point.get(
-                                        "label"
-                                    )
-                                )
-
-
-                            # -------------------------------------
-                            # LAND CLICKED
-                            # -------------------------------------
-                            if (
-                                str(clicked_category)
-                                .strip()
-                                .lower()
-                                == "land"
-                            ):
-
-                                st.session_state.transport_visitors_land = True
-
-                                st.rerun()
-
-                    else:
-
-                        st.info(
-                            "No visitor transportation data available."
-                        )
-
 
                 st.markdown(
                     "</div>",
@@ -4487,210 +4246,42 @@ elif app_mode == "OVERVIEW":
 
 
             # =================================================
-            # 5.18 EXCURSIONIST
+            # EXCURSIONIST MAIN MODE
             # =================================================
+
             with main_col2:
 
                 st.markdown(
                     """
                     <div style="
-                    background:#FFFFFF;
-                    border:1px solid #E2E8F0;
-                    border-radius:12px;
-                    padding:10px 12px;
-                    box-shadow:
-                    0 2px 8px rgba(15,23,42,0.05);
+                        background:#FFFFFF;
+                        border:1px solid #E2E8F0;
+                        border-radius:12px;
+                        padding:10px 12px;
+                        box-shadow:
+                            0 2px 8px rgba(15,23,42,0.05);
                     ">
                     """,
                     unsafe_allow_html=True
                 )
 
+                if excursionist_main_fig is not None:
 
-                # -------------------------------------------------
-                # TITLE
-                # -------------------------------------------------
-                if st.session_state.transport_excursionist_land:
-
-                    st.markdown(
-                        """
-                        <div style="
-                        font-size:15px;
-                        font-weight:600;
-                        color:#12355B;
-                        margin-bottom:2px;
-                        ">
-                        Land Transportation Breakdown — Excursionist
-                        </div>
-                        """,
-                        unsafe_allow_html=True
+                    st.plotly_chart(
+                        excursionist_main_fig,
+                        width="stretch",
+                        key="transport_excursionist_main_chart",
+                        on_select="ignore",
+                        config={
+                            "displayModeBar": False
+                        }
                     )
 
                 else:
 
-                    st.markdown(
-                        """
-                        <div style="
-                        font-size:15px;
-                        font-weight:600;
-                        color:#12355B;
-                        margin-bottom:2px;
-                        ">
-                        Excursionist
-                        </div>
-                        """,
-                        unsafe_allow_html=True
+                    st.info(
+                        "No excursionist transportation data available."
                     )
-
-
-                # -------------------------------------------------
-                # LAND VIEW
-                # -------------------------------------------------
-                if st.session_state.transport_excursionist_land:
-
-                    if excursionist_land_fig is not None:
-
-                        excursionist_back = st.button(
-                            "← Back to Main Transportation",
-                            key="excursionist_transport_back"
-                        )
-
-
-                        if excursionist_back:
-
-                            st.session_state.transport_excursionist_land = False
-
-                            st.rerun()
-
-
-                        st.plotly_chart(
-                            excursionist_land_fig,
-                            width="stretch",
-                            key="transport_excursionist_land_chart",
-                            on_select="ignore",
-                            selection_mode=["points"],
-                            config={
-                                "displayModeBar": False
-                            }
-                        )
-                        if excursionist_land_fig.selection.points: 
-                            selected_point = excursionist_land_fig.selection.points[0] 
-                            st.write("DEBUG:", selected_point) 
-                            clicked_category = selected_point.get("label") 
-                            if str(clicked_category).strip().lower() == "land": 
-                                st.session_state.transport_excursionist_land = True
-                                st.rerun()
-
-                    else:
-
-                        st.info(
-                            "No detailed land transportation "
-                            "data available for excursionists."
-                        )
-
-
-                # -------------------------------------------------
-                # MAIN VIEW
-                # -------------------------------------------------
-                else:
-
-                    if excursionist_main_fig is not None:
-
-                        excursionist_selection = st.plotly_chart(
-                            excursionist_main_fig,
-
-                            width="stretch",
-
-                            key="transport_excursionist_main_chart",
-
-                            on_select="rerun",
-
-                            config={
-                                "displayModeBar": False
-                            }
-                        )
-
-
-                        # -----------------------------------------
-                        # CHECK CLICK EVENT
-                        # -----------------------------------------
-                        if (
-                            excursionist_selection
-                            and excursionist_selection.selection
-                            and excursionist_selection.selection.points
-                        ):
-
-                            selected_point = (
-                                excursionist_selection
-                                .selection
-                                .points[0]
-                            )
-
-
-                            clicked_category = None
-
-
-                            # -------------------------------------
-                            # READ CUSTOM DATA
-                            # -------------------------------------
-                            if selected_point.get(
-                                "customdata"
-                            ):
-
-                                custom_data = (
-                                    selected_point.get(
-                                        "customdata"
-                                    )
-                                )
-
-
-                                if isinstance(
-                                    custom_data,
-                                    list
-                                ):
-
-                                    clicked_category = (
-                                        custom_data[0]
-                                    )
-
-                                else:
-
-                                    clicked_category = (
-                                        custom_data
-                                    )
-
-
-                            # -------------------------------------
-                            # FALLBACK TO LABEL
-                            # -------------------------------------
-                            if clicked_category is None:
-
-                                clicked_category = (
-                                    selected_point.get(
-                                        "label"
-                                    )
-                                )
-
-
-                            # -------------------------------------
-                            # LAND CLICKED
-                            # -------------------------------------
-                            if (
-                                str(clicked_category)
-                                .strip()
-                                .lower()
-                                == "land"
-                            ):
-
-                                st.session_state.transport_excursionist_land = True
-
-                                st.rerun()
-
-                    else:
-
-                        st.info(
-                            "No excursionist transportation data available."
-                        )
-
 
                 st.markdown(
                     "</div>",
@@ -4698,23 +4289,29 @@ elif app_mode == "OVERVIEW":
                 )
 
 
-            # =================================================
-            # 5.19 INFORMATION NOTE
-            # =================================================
+            # -------------------------------------------------
+            # 5.14 LAND TRANSPORTATION
+            # -------------------------------------------------
+
             st.markdown(
                 """
                 <div style="
-                margin-top:18px;
-                padding:10px 14px;
-                background:#F8FAFC;
-                border-radius:8px;
-                text-align:center;
-                font-size:12px;
-                color:#64748B;
+                    margin-top: 25px;
+                    margin-bottom: 12px;
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: #12355B;
                 ">
-                <b>Interactive view:</b>
-                Select <b>Land</b> from either chart to switch
-                to its detailed transportation breakdown.
+                    Land Transportation
+                </div>
+
+                <div style="
+                    margin-bottom: 15px;
+                    font-size: 13px;
+                    color: #64748B;
+                ">
+                    Breakdown of land transportation choices
+                    among visitors and excursionists.
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -4722,9 +4319,145 @@ elif app_mode == "OVERVIEW":
 
 
             # -------------------------------------------------
-            # SECTION DIVIDER
+            # 5.15 BUILD LAND CHARTS
             # -------------------------------------------------
-            st.divider()
+
+            visitors_land_fig, visitors_land_df = (
+                build_land_transport_chart(
+                    visitors_transport,
+                    "Visitors"
+                )
+            )
+
+            excursionist_land_fig, excursionist_land_df = (
+                build_land_transport_chart(
+                    excursionist_transport,
+                    "Excursionist"
+                )
+            )
+
+
+            # -------------------------------------------------
+            # 5.16 LAND TRANSPORTATION CARDS
+            # -------------------------------------------------
+
+            land_col1, land_col2 = st.columns(
+                2,
+                gap="large"
+            )
+
+
+            # =================================================
+            # VISITORS LAND TRANSPORT
+            # =================================================
+
+            with land_col1:
+
+                st.markdown(
+                    """
+                    <div style="
+                        background:#FFFFFF;
+                        border:1px solid #E2E8F0;
+                        border-radius:12px;
+                        padding:16px 16px 10px 16px;
+                        box-shadow:
+                            0 2px 8px rgba(15,23,42,0.05);
+                    ">
+
+                    <div style="
+                        font-size:15px;
+                        font-weight:600;
+                        color:#12355B;
+                        margin-bottom:4px;
+                    ">
+                        Visitors
+                    </div>
+
+                    """,
+                    unsafe_allow_html=True
+                )
+
+                if visitors_land_fig is not None:
+
+                    st.plotly_chart(
+                        visitors_land_fig,
+                        width="stretch",
+                        key="transport_visitors_land_chart",
+                        on_select="ignore",
+                        config={
+                            "displayModeBar": False
+                        }
+                    )
+
+                else:
+
+                    st.info(
+                        "No land transportation data available."
+                    )
+
+                st.markdown(
+                    "</div>",
+                    unsafe_allow_html=True
+                )
+
+
+            # =================================================
+            # EXCURSIONIST LAND TRANSPORT
+            # =================================================
+
+            with land_col2:
+
+                st.markdown(
+                    """
+                    <div style="
+                    background:#FFFFFF;
+                    border:1px solid #E2E8F0;
+                    border-radius:12px;
+                    padding:16px 16px 10px 16px;
+                    box-shadow:
+                    0 2px 8px rgba(15,23,42,0.05);
+                    ">
+                    <div style="
+                    font-size:15px;
+                    font-weight:600;
+                    color:#12355B;
+                    margin-bottom:4px;
+                    ">
+                    Excursionist
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+                if excursionist_land_fig is not None:
+
+                    st.plotly_chart(
+                        excursionist_land_fig,
+                        width="stretch",
+                        key="transport_excursionist_land_chart",
+                        on_select="ignore",
+                        config={
+                            "displayModeBar": False
+                        }
+                    )
+
+                else:
+
+                    st.info(
+                        "No land transportation data available."
+                    )
+
+                st.markdown(
+                    "</div>",
+                    unsafe_allow_html=True
+                )
+
+
+        # -----------------------------------------------------
+        # SECTION DIVIDER
+        # -----------------------------------------------------
+
+        st.divider()
 
 
     else:
@@ -4732,7 +4465,7 @@ elif app_mode == "OVERVIEW":
         st.info(
             "Transportation data is not available."
         )
-
+  
     # =====================================================
     # SECTION 6: TOURISM DESTINATION & HOTEL DISTRIBUTION
     # =====================================================

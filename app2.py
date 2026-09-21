@@ -4381,17 +4381,21 @@ elif app_mode == "OVERVIEW":
 
                         visitors_selection = st.plotly_chart(
                             visitors_main_fig,
-
                             width="stretch",
-
                             key="transport_visitors_main_chart",
-
                             on_select="rerun",
-
+                            selection_mode=["points"],
                             config={
                                 "displayModeBar": False
                             }
                         )
+                        if visitors_selection.selection.points: 
+                            selected_point = visitors_selection.selection.points[0] 
+                            st.write("DEBUG:", selected_point) 
+                            clicked_category = selected_point.get("label") 
+                            if str(clicked_category).strip().lower() == "land":
+                                st.session_state.transport_visitors_land = True 
+                                st.rerun() 
 
 
                         # -----------------------------------------
@@ -4560,17 +4564,21 @@ elif app_mode == "OVERVIEW":
 
                         st.plotly_chart(
                             excursionist_land_fig,
-
                             width="stretch",
-
                             key="transport_excursionist_land_chart",
-
                             on_select="ignore",
-
+                            selection_mode=["points"],
                             config={
                                 "displayModeBar": False
                             }
                         )
+                        if excursionist_land_fig.selection.points: 
+                            selected_point = excursionist_land_fig.selection.points[0] 
+                            st.write("DEBUG:", selected_point) 
+                            clicked_category = selected_point.get("label") 
+                            if str(clicked_category).strip().lower() == "land": 
+                                st.session_state.transport_excursionist_land = True
+                                st.rerun()
 
                     else:
 

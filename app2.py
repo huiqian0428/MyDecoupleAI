@@ -3933,8 +3933,8 @@ elif app_mode == "OVERVIEW":
                     marker=dict(
                         line=dict(
                             color="white",
-                            width=2
-                        )
+                            width=2)
+                            )
                         )
                 fig.update_layout(
                     height=380,

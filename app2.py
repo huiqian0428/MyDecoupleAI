@@ -3795,6 +3795,7 @@ elif app_mode == "OVERVIEW":
         )
 
         with transport_filter_col1:
+
             transport_selected_year = st.selectbox(
                 "Select Year",
                 transport_years,
@@ -3803,6 +3804,7 @@ elif app_mode == "OVERVIEW":
             )
 
         with transport_filter_col2:
+
             transport_selected_state = st.selectbox(
                 "Select State",
                 transport_states,
@@ -3912,7 +3914,9 @@ elif app_mode == "OVERVIEW":
                 if chart_df.empty:
                     return None
 
-                # Remove duplicates if any
+                # ---------------------------------------------
+                # REMOVE DUPLICATES / AGGREGATE
+                # ---------------------------------------------
                 chart_df = (
                     chart_df
                     .groupby(
@@ -3922,7 +3926,9 @@ elif app_mode == "OVERVIEW":
                     .sum()
                 )
 
-                # Keep desired order
+                # ---------------------------------------------
+                # KEEP DESIRED ORDER
+                # ---------------------------------------------
                 chart_df[transport_category] = pd.Categorical(
                     chart_df[transport_category],
                     categories=main_modes,
@@ -3934,19 +3940,27 @@ elif app_mode == "OVERVIEW":
                 )
 
 
-                # -------------------------------------------------
+                # ---------------------------------------------
                 # CREATE DONUT CHART
-                # -------------------------------------------------
+                # ---------------------------------------------
                 fig = px.pie(
                     chart_df,
                     names=transport_category,
                     values=transport_value,
-                    hole=0.58
+                    hole=0.58,
+                    custom_data=[
+                        transport_category
+                    ]
                 )
 
+
+                # ---------------------------------------------
+                # DONUT STYLE
+                # ---------------------------------------------
                 fig.update_traces(
                     textposition="inside",
                     textinfo="percent",
+
                     hovertemplate=(
                         "<b>%{label}</b><br>"
                         "Share: %{value:.2f}%"
@@ -3954,6 +3968,7 @@ elif app_mode == "OVERVIEW":
                         "Click <b>Land</b> to view breakdown"
                         "<extra></extra>"
                     ),
+
                     marker=dict(
                         line=dict(
                             color="white",
@@ -3962,22 +3977,31 @@ elif app_mode == "OVERVIEW":
                     )
                 )
 
+
+                # ---------------------------------------------
+                # DONUT LAYOUT
+                # ---------------------------------------------
                 fig.update_layout(
                     height=380,
+
                     paper_bgcolor="rgba(0,0,0,0)",
                     plot_bgcolor="rgba(0,0,0,0)",
+
                     font=dict(
                         family="Arial",
                         size=12,
                         color="#334155"
                     ),
+
                     margin=dict(
                         l=15,
                         r=15,
                         t=25,
                         b=70
                     ),
+
                     showlegend=True,
+
                     legend=dict(
                         orientation="h",
                         yanchor="top",
@@ -3990,9 +4014,14 @@ elif app_mode == "OVERVIEW":
                     )
                 )
 
+
+                # ---------------------------------------------
+                # CENTER LABEL
+                # ---------------------------------------------
                 fig.add_annotation(
                     x=0.5,
                     y=0.5,
+
                     text=(
                         "<b>Transport</b><br>"
                         "<span style="
@@ -4000,8 +4029,10 @@ elif app_mode == "OVERVIEW":
                         "Mode Share"
                         "</span>"
                     ),
+
                     showarrow=False,
                     align="center",
+
                     font=dict(
                         size=16,
                         color="#12355B"
@@ -4034,7 +4065,10 @@ elif app_mode == "OVERVIEW":
                 if chart_df.empty:
                     return None
 
-                # Remove duplicates if any
+
+                # ---------------------------------------------
+                # REMOVE DUPLICATES / AGGREGATE
+                # ---------------------------------------------
                 chart_df = (
                     chart_df
                     .groupby(
@@ -4044,7 +4078,10 @@ elif app_mode == "OVERVIEW":
                     .sum()
                 )
 
-                # Keep desired order
+
+                # ---------------------------------------------
+                # KEEP DESIRED ORDER
+                # ---------------------------------------------
                 chart_df[transport_category] = pd.Categorical(
                     chart_df[transport_category],
                     categories=land_modes,
@@ -4056,9 +4093,9 @@ elif app_mode == "OVERVIEW":
                 )
 
 
-                # -------------------------------------------------
-                # CREATE HORIZONTAL BAR CHART
-                # -------------------------------------------------
+                # ---------------------------------------------
+                # CREATE BAR CHART
+                # ---------------------------------------------
                 fig = px.bar(
                     chart_df,
                     x=transport_value,
@@ -4067,9 +4104,14 @@ elif app_mode == "OVERVIEW":
                     text=transport_value
                 )
 
+
+                # ---------------------------------------------
+                # BAR STYLE
+                # ---------------------------------------------
                 fig.update_traces(
                     texttemplate="%{text:.1f}%",
                     textposition="outside",
+
                     hovertemplate=(
                         "<b>%{y}</b><br>"
                         "Share: %{x:.2f}%"
@@ -4077,41 +4119,56 @@ elif app_mode == "OVERVIEW":
                     )
                 )
 
+
+                # ---------------------------------------------
+                # BAR LAYOUT
+                # ---------------------------------------------
+                max_value = chart_df[
+                    transport_value
+                ].max()
+
+                x_max = max(
+                    100,
+                    max_value * 1.15
+                )
+
+
                 fig.update_layout(
                     height=380,
+
                     paper_bgcolor="rgba(0,0,0,0)",
                     plot_bgcolor="rgba(0,0,0,0)",
+
                     font=dict(
                         family="Arial",
                         size=12,
                         color="#334155"
                     ),
+
                     margin=dict(
                         l=20,
                         r=45,
                         t=25,
                         b=40
                     ),
+
                     xaxis=dict(
                         title="Percentage Share (%)",
                         range=[
                             0,
-                            max(
-                                100,
-                                chart_df[
-                                    transport_value
-                                ].max() * 1.15
-                            )
+                            x_max
                         ],
                         showgrid=True,
                         gridcolor="#E2E8F0",
                         zeroline=False
                     ),
+
                     yaxis=dict(
                         title="",
                         categoryorder="array",
                         categoryarray=land_modes
                     ),
+
                     showlegend=False
                 )
 
@@ -4119,7 +4176,7 @@ elif app_mode == "OVERVIEW":
 
 
             # =================================================
-            # 5.12 BUILD CHARTS
+            # 5.12 BUILD ALL CHARTS
             # =================================================
             visitors_main_fig = build_main_transport_chart(
                 visitors_transport
@@ -4139,7 +4196,7 @@ elif app_mode == "OVERVIEW":
 
 
             # =================================================
-            # 5.13 MAIN TRANSPORTATION TITLE
+            # 5.13 SECTION TITLE
             # =================================================
             st.markdown("""
             <div style="
@@ -4167,24 +4224,29 @@ elif app_mode == "OVERVIEW":
             # 5.14 SESSION STATE
             # =================================================
             if "transport_visitors_land" not in st.session_state:
+
                 st.session_state.transport_visitors_land = False
 
+
             if "transport_excursionist_land" not in st.session_state:
+
                 st.session_state.transport_excursionist_land = False
 
 
             # =================================================
-            # RESET WHEN YEAR OR STATE CHANGES
+            # 5.15 RESET DRILL-DOWN WHEN FILTER CHANGES
             # =================================================
             current_transport_filter = (
                 transport_selected_year,
                 transport_selected_state
             )
 
+
             if (
                 "transport_previous_filter"
                 not in st.session_state
             ):
+
                 st.session_state.transport_previous_filter = (
                     current_transport_filter
                 )
@@ -4195,6 +4257,7 @@ elif app_mode == "OVERVIEW":
             ):
 
                 st.session_state.transport_visitors_land = False
+
                 st.session_state.transport_excursionist_land = False
 
                 st.session_state.transport_previous_filter = (
@@ -4203,7 +4266,7 @@ elif app_mode == "OVERVIEW":
 
 
             # =================================================
-            # 5.15 TWO INDEPENDENT TRANSPORTATION CARDS
+            # 5.16 TWO INDEPENDENT CARDS
             # =================================================
             main_col1, main_col2 = st.columns(
                 2,
@@ -4212,7 +4275,7 @@ elif app_mode == "OVERVIEW":
 
 
             # =================================================
-            # 5.16 VISITORS CARD
+            # 5.17 VISITORS
             # =================================================
             with main_col1:
 
@@ -4232,7 +4295,7 @@ elif app_mode == "OVERVIEW":
 
 
                 # -------------------------------------------------
-                # CARD TITLE
+                # TITLE
                 # -------------------------------------------------
                 if st.session_state.transport_visitors_land:
 
@@ -4268,7 +4331,7 @@ elif app_mode == "OVERVIEW":
 
 
                 # -------------------------------------------------
-                # VISITORS → LAND VIEW
+                # LAND VIEW
                 # -------------------------------------------------
                 if st.session_state.transport_visitors_land:
 
@@ -4279,6 +4342,7 @@ elif app_mode == "OVERVIEW":
                             key="visitors_transport_back"
                         )
 
+
                         if visitors_back:
 
                             st.session_state.transport_visitors_land = False
@@ -4288,9 +4352,13 @@ elif app_mode == "OVERVIEW":
 
                         st.plotly_chart(
                             visitors_land_fig,
+
                             width="stretch",
+
                             key="transport_visitors_land_chart",
+
                             on_select="ignore",
+
                             config={
                                 "displayModeBar": False
                             }
@@ -4305,7 +4373,7 @@ elif app_mode == "OVERVIEW":
 
 
                 # -------------------------------------------------
-                # VISITORS → MAIN VIEW
+                # MAIN VIEW
                 # -------------------------------------------------
                 else:
 
@@ -4313,9 +4381,13 @@ elif app_mode == "OVERVIEW":
 
                         visitors_selection = st.plotly_chart(
                             visitors_main_fig,
+
                             width="stretch",
+
                             key="transport_visitors_main_chart",
+
                             on_select="rerun",
+
                             config={
                                 "displayModeBar": False
                             }
@@ -4323,7 +4395,7 @@ elif app_mode == "OVERVIEW":
 
 
                         # -----------------------------------------
-                        # CHECK WHETHER LAND WAS CLICKED
+                        # CHECK CLICK EVENT
                         # -----------------------------------------
                         if (
                             visitors_selection
@@ -4337,9 +4409,60 @@ elif app_mode == "OVERVIEW":
                                 .points[0]
                             )
 
+
+                            clicked_category = None
+
+
+                            # -------------------------------------
+                            # READ CUSTOM DATA
+                            # -------------------------------------
+                            if selected_point.get(
+                                "customdata"
+                            ):
+
+                                custom_data = (
+                                    selected_point.get(
+                                        "customdata"
+                                    )
+                                )
+
+
+                                if isinstance(
+                                    custom_data,
+                                    list
+                                ):
+
+                                    clicked_category = (
+                                        custom_data[0]
+                                    )
+
+                                else:
+
+                                    clicked_category = (
+                                        custom_data
+                                    )
+
+
+                            # -------------------------------------
+                            # FALLBACK TO LABEL
+                            # -------------------------------------
+                            if clicked_category is None:
+
+                                clicked_category = (
+                                    selected_point.get(
+                                        "label"
+                                    )
+                                )
+
+
+                            # -------------------------------------
+                            # LAND CLICKED
+                            # -------------------------------------
                             if (
-                                selected_point.get("label")
-                                == "Land"
+                                str(clicked_category)
+                                .strip()
+                                .lower()
+                                == "land"
                             ):
 
                                 st.session_state.transport_visitors_land = True
@@ -4360,7 +4483,7 @@ elif app_mode == "OVERVIEW":
 
 
             # =================================================
-            # 5.17 EXCURSIONIST CARD
+            # 5.18 EXCURSIONIST
             # =================================================
             with main_col2:
 
@@ -4380,7 +4503,7 @@ elif app_mode == "OVERVIEW":
 
 
                 # -------------------------------------------------
-                # CARD TITLE
+                # TITLE
                 # -------------------------------------------------
                 if st.session_state.transport_excursionist_land:
 
@@ -4416,7 +4539,7 @@ elif app_mode == "OVERVIEW":
 
 
                 # -------------------------------------------------
-                # EXCURSIONIST → LAND VIEW
+                # LAND VIEW
                 # -------------------------------------------------
                 if st.session_state.transport_excursionist_land:
 
@@ -4427,6 +4550,7 @@ elif app_mode == "OVERVIEW":
                             key="excursionist_transport_back"
                         )
 
+
                         if excursionist_back:
 
                             st.session_state.transport_excursionist_land = False
@@ -4436,9 +4560,13 @@ elif app_mode == "OVERVIEW":
 
                         st.plotly_chart(
                             excursionist_land_fig,
+
                             width="stretch",
+
                             key="transport_excursionist_land_chart",
+
                             on_select="ignore",
+
                             config={
                                 "displayModeBar": False
                             }
@@ -4453,7 +4581,7 @@ elif app_mode == "OVERVIEW":
 
 
                 # -------------------------------------------------
-                # EXCURSIONIST → MAIN VIEW
+                # MAIN VIEW
                 # -------------------------------------------------
                 else:
 
@@ -4461,9 +4589,13 @@ elif app_mode == "OVERVIEW":
 
                         excursionist_selection = st.plotly_chart(
                             excursionist_main_fig,
+
                             width="stretch",
+
                             key="transport_excursionist_main_chart",
+
                             on_select="rerun",
+
                             config={
                                 "displayModeBar": False
                             }
@@ -4471,7 +4603,7 @@ elif app_mode == "OVERVIEW":
 
 
                         # -----------------------------------------
-                        # CHECK WHETHER LAND WAS CLICKED
+                        # CHECK CLICK EVENT
                         # -----------------------------------------
                         if (
                             excursionist_selection
@@ -4485,9 +4617,60 @@ elif app_mode == "OVERVIEW":
                                 .points[0]
                             )
 
+
+                            clicked_category = None
+
+
+                            # -------------------------------------
+                            # READ CUSTOM DATA
+                            # -------------------------------------
+                            if selected_point.get(
+                                "customdata"
+                            ):
+
+                                custom_data = (
+                                    selected_point.get(
+                                        "customdata"
+                                    )
+                                )
+
+
+                                if isinstance(
+                                    custom_data,
+                                    list
+                                ):
+
+                                    clicked_category = (
+                                        custom_data[0]
+                                    )
+
+                                else:
+
+                                    clicked_category = (
+                                        custom_data
+                                    )
+
+
+                            # -------------------------------------
+                            # FALLBACK TO LABEL
+                            # -------------------------------------
+                            if clicked_category is None:
+
+                                clicked_category = (
+                                    selected_point.get(
+                                        "label"
+                                    )
+                                )
+
+
+                            # -------------------------------------
+                            # LAND CLICKED
+                            # -------------------------------------
                             if (
-                                selected_point.get("label")
-                                == "Land"
+                                str(clicked_category)
+                                .strip()
+                                .lower()
+                                == "land"
                             ):
 
                                 st.session_state.transport_excursionist_land = True
@@ -4508,7 +4691,7 @@ elif app_mode == "OVERVIEW":
 
 
             # =================================================
-            # 5.18 INFORMATION NOTE
+            # 5.19 INFORMATION NOTE
             # =================================================
             st.markdown(
                 """
@@ -4522,8 +4705,8 @@ elif app_mode == "OVERVIEW":
                 color:#64748B;
                 ">
                 <b>Interactive view:</b>
-                Select <b>Land</b> from either transportation
-                chart to switch to its detailed breakdown.
+                Select <b>Land</b> from either chart to switch
+                to its detailed transportation breakdown.
                 </div>
                 """,
                 unsafe_allow_html=True

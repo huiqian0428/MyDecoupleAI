@@ -3928,7 +3928,7 @@ elif app_mode == "OVERVIEW":
                         "Share: %{value:.2f}%"
                         "<br><br>"
                         "Click to view breakdown"
-                        "<extra></extra>"
+                        "<extra></extra>")
                     ),
                     marker=dict(
                         line=dict(
